@@ -1,15 +1,139 @@
-/******/ (() => { // webpackBootstrap
-/******/ 	var __webpack_modules__ = ({
+module.exports =
+/******/ (function(modules, runtime) { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The module cache
+/******/ 	var installedModules = {};
+/******/
+/******/ 	// The require function
+/******/ 	function __webpack_require__(moduleId) {
+/******/
+/******/ 		// Check if module is in cache
+/******/ 		if(installedModules[moduleId]) {
+/******/ 			return installedModules[moduleId].exports;
+/******/ 		}
+/******/ 		// Create a new module (and put it into the cache)
+/******/ 		var module = installedModules[moduleId] = {
+/******/ 			i: moduleId,
+/******/ 			l: false,
+/******/ 			exports: {}
+/******/ 		};
+/******/
+/******/ 		// Execute the module function
+/******/ 		var threw = true;
+/******/ 		try {
+/******/ 			modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
+/******/ 			threw = false;
+/******/ 		} finally {
+/******/ 			if(threw) delete installedModules[moduleId];
+/******/ 		}
+/******/
+/******/ 		// Flag the module as loaded
+/******/ 		module.l = true;
+/******/
+/******/ 		// Return the exports of the module
+/******/ 		return module.exports;
+/******/ 	}
+/******/
+/******/
+/******/ 	__webpack_require__.ab = __dirname + "/";
+/******/
+/******/ 	// the startup function
+/******/ 	function startup() {
+/******/ 		// Load entry module and return exports
+/******/ 		return __webpack_require__(131);
+/******/ 	};
+/******/
+/******/ 	// run startup
+/******/ 	return startup();
+/******/ })
+/************************************************************************/
+/******/ ({
 
-/***/ 18:
-/***/ ((module, __unused_webpack_exports, __nccwpck_require__) => {
+/***/ 82:
+/***/ (function(__unusedmodule, exports) {
 
-module.exports = require(__nccwpck_require__.ab + "lib/addon.node")
+"use strict";
+
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.toCommandValue = void 0;
+/**
+ * Sanitizes an input into a string so it can be passed into issueCommand safely
+ * @param input input to sanitize into a string
+ */
+function toCommandValue(input) {
+    if (input === null || input === undefined) {
+        return '';
+    }
+    else if (typeof input === 'string' || input instanceof String) {
+        return input;
+    }
+    return JSON.stringify(input);
+}
+exports.toCommandValue = toCommandValue;
+//# sourceMappingURL=utils.js.map
 
 /***/ }),
 
-/***/ 822:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 87:
+/***/ (function(module) {
+
+module.exports = require("os");
+
+/***/ }),
+
+/***/ 102:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
+
+"use strict";
+
+// For internal use, subject to change.
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.issueCommand = void 0;
+// We use any as a valid input type
+/* eslint-disable @typescript-eslint/no-explicit-any */
+const fs = __importStar(__webpack_require__(747));
+const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(82);
+function issueCommand(command, message) {
+    const filePath = process.env[`GITHUB_${command}`];
+    if (!filePath) {
+        throw new Error(`Unable to find environment variable for file command ${command}`);
+    }
+    if (!fs.existsSync(filePath)) {
+        throw new Error(`Missing file at path: ${filePath}`);
+    }
+    fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
+        encoding: 'utf8'
+    });
+}
+exports.issueCommand = issueCommand;
+//# sourceMappingURL=file-command.js.map
+
+/***/ }),
+
+/***/ 131:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
@@ -44,23 +168,23 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-const pdfnet_node_1 = __nccwpck_require__(736);
-const path_1 = __importDefault(__nccwpck_require__(622));
-const core = __importStar(__nccwpck_require__(186));
-const fs_1 = __importDefault(__nccwpck_require__(747));
+Object.defineProperty(exports, "__esModule", { value: true });
+const pdfnet_node_1 = __webpack_require__(551);
+const path_1 = __importDefault(__webpack_require__(622));
+const core = __importStar(__webpack_require__(470));
+const fs_1 = __importDefault(__webpack_require__(747));
 function bootstrap() {
     return __awaiter(this, void 0, void 0, function* () {
-        fs_1.default.readdirSync(".").forEach(file => {
+        fs_1.default.readdirSync(".").forEach((file) => {
             console.log(file);
         });
-        const name = core.getInput('name');
+        const directoryPath = core.getInput("path");
+        const name = core.getInput("name");
         pdfnet_node_1.PDFNet.addResourceSearchPath("./Lib");
         const doc = yield pdfnet_node_1.PDFNet.PDFDoc.create();
         if (!(yield pdfnet_node_1.PDFNet.CADModule.isModuleAvailable())) {
             console.log("PDFTron SDK CAD module not available.");
         }
-        const directoryPath = path_1.default.join(__dirname, "../Schematics and BOM/");
         const files = fs_1.default.readdirSync(directoryPath);
         for (let file in files) {
             const extension = files[file].split(".").pop();
@@ -81,19 +205,1287 @@ function bootstrap() {
         }
     });
 }
-pdfnet_node_1.PDFNet.runWithCleanup(bootstrap, "")
-    .catch(function (error) {
-    console.log("Error: " + JSON.stringify(error));
-})
-    .then(function () {
-    pdfnet_node_1.PDFNet.shutdown();
-});
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield pdfnet_node_1.PDFNet.runWithCleanup(bootstrap, "")
+                .catch(function (error) {
+                console.log("Error: " + JSON.stringify(error));
+            })
+                .then(function () {
+                pdfnet_node_1.PDFNet.shutdown();
+            });
+        }
+        catch (error) {
+            core.setFailed(error.message);
+        }
+    });
+}
+run();
 
 
 /***/ }),
 
-/***/ 351:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 211:
+/***/ (function(module) {
+
+module.exports = require("https");
+
+/***/ }),
+
+/***/ 405:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+// Generated by CoffeeScript 2.4.1
+(function() {
+  // This file's name is set up in such a way that it will always show up first in
+  // the list of files given to coffee --join, so that the other files can assume
+  // that XMLHttpRequestEventTarget was already defined.
+
+  // The DOM EventTarget subclass used by XMLHttpRequest.
+
+  // @see http://xhr.spec.whatwg.org/#interface-xmlhttprequest
+  var InvalidStateError, NetworkError, ProgressEvent, SecurityError, SyntaxError, XMLHttpRequest, XMLHttpRequestEventTarget, XMLHttpRequestUpload, http, https, os, url;
+
+  XMLHttpRequestEventTarget = (function() {
+    class XMLHttpRequestEventTarget {
+      // @private
+      // This is an abstract class and should not be instantiated directly.
+      constructor() {
+        this.onloadstart = null;
+        this.onprogress = null;
+        this.onabort = null;
+        this.onerror = null;
+        this.onload = null;
+        this.ontimeout = null;
+        this.onloadend = null;
+        this._listeners = {};
+      }
+
+      // Adds a new-style listener for one of the XHR events.
+
+      // @see http://www.w3.org/TR/XMLHttpRequest/#events
+
+      // @param {String} eventType an XHR event type, such as 'readystatechange'
+      // @param {function(ProgressEvent)} listener function that will be called when
+      //   the event fires
+      // @return {undefined} undefined
+      addEventListener(eventType, listener) {
+        var base;
+        eventType = eventType.toLowerCase();
+        (base = this._listeners)[eventType] || (base[eventType] = []);
+        this._listeners[eventType].push(listener);
+        return void 0;
+      }
+
+      // Removes an event listener added by calling addEventListener.
+
+      // @param {String} eventType an XHR event type, such as 'readystatechange'
+      // @param {function(ProgressEvent)} listener the value passed in a previous
+      //   call to addEventListener.
+      // @return {undefined} undefined
+      removeEventListener(eventType, listener) {
+        var index;
+        eventType = eventType.toLowerCase();
+        if (this._listeners[eventType]) {
+          index = this._listeners[eventType].indexOf(listener);
+          if (index !== -1) {
+            this._listeners[eventType].splice(index, 1);
+          }
+        }
+        return void 0;
+      }
+
+      // Calls all the listeners for an event.
+
+      // @param {ProgressEvent} event the event to be dispatched
+      // @return {undefined} undefined
+      dispatchEvent(event) {
+        var eventType, j, len, listener, listeners;
+        event.currentTarget = event.target = this;
+        eventType = event.type;
+        if (listeners = this._listeners[eventType]) {
+          for (j = 0, len = listeners.length; j < len; j++) {
+            listener = listeners[j];
+            listener.call(this, event);
+          }
+        }
+        if (listener = this[`on${eventType}`]) {
+          listener.call(this, event);
+        }
+        return void 0;
+      }
+
+    };
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'loadstart' event
+    XMLHttpRequestEventTarget.prototype.onloadstart = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'progress' event
+    XMLHttpRequestEventTarget.prototype.onprogress = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'abort' event
+    XMLHttpRequestEventTarget.prototype.onabort = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'error' event
+    XMLHttpRequestEventTarget.prototype.onerror = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'load' event
+    XMLHttpRequestEventTarget.prototype.onload = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'timeout' event
+    XMLHttpRequestEventTarget.prototype.ontimeout = null;
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler
+    //   for the 'loadend' event
+    XMLHttpRequestEventTarget.prototype.onloadend = null;
+
+    return XMLHttpRequestEventTarget;
+
+  }).call(this);
+
+  // This file's name is set up in such a way that it will always show up second
+  // in the list of files given to coffee --join, so it can use the
+  // XMLHttpRequestEventTarget definition and so that the other files can assume
+  // that XMLHttpRequest was already defined.
+  http = __webpack_require__(605);
+
+  https = __webpack_require__(211);
+
+  os = __webpack_require__(87);
+
+  url = __webpack_require__(835);
+
+  XMLHttpRequest = (function() {
+    // The ECMAScript HTTP API.
+
+    // @see http://www.w3.org/TR/XMLHttpRequest/#introduction
+    class XMLHttpRequest extends XMLHttpRequestEventTarget {
+      // Creates a new request.
+
+      // @param {Object} options one or more of the options below
+      // @option options {Boolean} anon if true, the request's anonymous flag
+      //   will be set
+      // @see http://www.w3.org/TR/XMLHttpRequest/#constructors
+      // @see http://www.w3.org/TR/XMLHttpRequest/#anonymous-flag
+      constructor(options) {
+        super();
+        this.onreadystatechange = null;
+        this._anonymous = options && options.anon;
+        this.readyState = XMLHttpRequest.UNSENT;
+        this.response = null;
+        this.responseText = '';
+        this.responseType = '';
+        this.responseURL = '';
+        this.status = 0;
+        this.statusText = '';
+        this.timeout = 0;
+        this.upload = new XMLHttpRequestUpload(this);
+        this._method = null; // String
+        this._url = null; // Return value of url.parse()
+        this._sync = false;
+        this._headers = null; // Object<String, String>
+        this._loweredHeaders = null; // Object<lowercase String, String>
+        this._mimeOverride = null;
+        this._request = null; // http.ClientRequest
+        this._response = null; // http.ClientResponse
+        this._responseParts = null; // Array<Buffer, String>
+        this._responseHeaders = null; // Object<lowercase String, String>
+        this._aborting = null;
+        this._error = null;
+        this._loadedBytes = 0;
+        this._totalBytes = 0;
+        this._lengthComputable = false;
+      }
+
+      // Sets the XHR's method, URL, synchronous flag, and authentication params.
+
+      // @param {String} method the HTTP method to be used
+      // @param {String} url the URL that the request will be made to
+      // @param {?Boolean} async if false, the XHR should be processed
+      //   synchronously; true by default
+      // @param {?String} user the user credential to be used in HTTP basic
+      //   authentication
+      // @param {?String} password the password credential to be used in HTTP basic
+      //   authentication
+      // @return {undefined} undefined
+      // @throw {SecurityError} method is not one of the allowed methods
+      // @throw {SyntaxError} urlString is not a valid URL
+      // @throw {Error} the URL contains an unsupported protocol; the supported
+      //   protocols are file, http and https
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-open()-method
+      open(method, url, async, user, password) {
+        var xhrUrl;
+        method = method.toUpperCase();
+        if (method in this._restrictedMethods) {
+          throw new SecurityError(`HTTP method ${method} is not allowed in XHR`);
+        }
+        xhrUrl = this._parseUrl(url);
+        if (async === void 0) {
+          async = true;
+        }
+        switch (this.readyState) {
+          case XMLHttpRequest.UNSENT:
+          case XMLHttpRequest.OPENED:
+          case XMLHttpRequest.DONE:
+            // Nothing to do here.
+            null;
+            break;
+          case XMLHttpRequest.HEADERS_RECEIVED:
+          case XMLHttpRequest.LOADING:
+            // TODO(pwnall): terminate abort(), terminate send()
+            null;
+        }
+        this._method = method;
+        this._url = xhrUrl;
+        this._sync = !async;
+        this._headers = {};
+        this._loweredHeaders = {};
+        this._mimeOverride = null;
+        this._setReadyState(XMLHttpRequest.OPENED);
+        this._request = null;
+        this._response = null;
+        this.status = 0;
+        this.statusText = '';
+        this._responseParts = [];
+        this._responseHeaders = null;
+        this._loadedBytes = 0;
+        this._totalBytes = 0;
+        this._lengthComputable = false;
+        return void 0;
+      }
+
+      // Appends a header to the list of author request headers.
+
+      // @param {String} name the HTTP header name
+      // @param {String} value the HTTP header value
+      // @return {undefined} undefined
+      // @throw {InvalidStateError} readyState is not OPENED
+      // @throw {SyntaxError} name is not a valid HTTP header name or value is not
+      //   a valid HTTP header value
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader()-method
+      setRequestHeader(name, value) {
+        var loweredName;
+        if (this.readyState !== XMLHttpRequest.OPENED) {
+          throw new InvalidStateError("XHR readyState must be OPENED");
+        }
+        loweredName = name.toLowerCase();
+        if (this._restrictedHeaders[loweredName] || /^sec\-/.test(loweredName) || /^proxy-/.test(loweredName)) {
+          console.warn(`Refused to set unsafe header "${name}"`);
+          return void 0;
+        }
+        value = value.toString();
+        if (loweredName in this._loweredHeaders) {
+          // Combine value with the existing header value.
+          name = this._loweredHeaders[loweredName];
+          this._headers[name] = this._headers[name] + ', ' + value;
+        } else {
+          // New header.
+          this._loweredHeaders[loweredName] = name;
+          this._headers[name] = value;
+        }
+        return void 0;
+      }
+
+      // Initiates the request.
+
+      // @param {?String, ?ArrayBufferView} data the data to be sent; ignored for
+      //   GET and HEAD requests
+      // @return {undefined} undefined
+      // @throw {InvalidStateError} readyState is not OPENED
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-send()-method
+      send(data) {
+        if (this.readyState !== XMLHttpRequest.OPENED) {
+          throw new InvalidStateError("XHR readyState must be OPENED");
+        }
+        if (this._request) {
+          throw new InvalidStateError("send() already called");
+        }
+        switch (this._url.protocol) {
+          case 'file:':
+            this._sendFile(data);
+            break;
+          case 'http:':
+          case 'https:':
+            this._sendHttp(data);
+            break;
+          default:
+            throw new NetworkError(`Unsupported protocol ${this._url.protocol}`);
+        }
+        return void 0;
+      }
+
+      // Cancels the network activity performed by this request.
+
+      // @return {undefined} undefined
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-abort()-method
+      abort() {
+        if (!this._request) {
+          return;
+        }
+        this._request.abort();
+        this._setError();
+        this._dispatchProgress('abort');
+        this._dispatchProgress('loadend');
+        return void 0;
+      }
+
+      // Returns a header value in the HTTP response for this XHR.
+
+      // @param {String} name case-insensitive HTTP header name
+      // @return {?String} value the value of the header whose name matches the
+      //   given name, or null if there is no such header
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
+      getResponseHeader(name) {
+        var loweredName;
+        if (!this._responseHeaders) {
+          return null;
+        }
+        loweredName = name.toLowerCase();
+        if (loweredName in this._responseHeaders) {
+          return this._responseHeaders[loweredName];
+        } else {
+          return null;
+        }
+      }
+
+      // Returns all the HTTP headers in this XHR's response.
+
+      // @return {String} header lines separated by CR LF, where each header line
+      //   has the name and value separated by a ": " (colon, space); the empty
+      //   string is returned if the headers are not available
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders()-method
+      getAllResponseHeaders() {
+        var lines, name, value;
+        if (!this._responseHeaders) {
+          return '';
+        }
+        lines = (function() {
+          var ref, results;
+          ref = this._responseHeaders;
+          results = [];
+          for (name in ref) {
+            value = ref[name];
+            results.push(`${name}: ${value}`);
+          }
+          return results;
+        }).call(this);
+        return lines.join("\r\n");
+      }
+
+      // Overrides the Content-Type
+
+      // @return {undefined} undefined
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-overridemimetype()-method
+      overrideMimeType(newMimeType) {
+        if (this.readyState === XMLHttpRequest.LOADING || this.readyState === XMLHttpRequest.DONE) {
+          throw new InvalidStateError("overrideMimeType() not allowed in LOADING or DONE");
+        }
+        this._mimeOverride = newMimeType.toLowerCase();
+        return void 0;
+      }
+
+      // Network configuration not exposed in the XHR API.
+
+      // Although the XMLHttpRequest specification calls itself "ECMAScript HTTP",
+      // it assumes that requests are always performed in the context of a browser
+      // application, where some network parameters are set by the browser user and
+      // should not be modified by Web applications. This API provides access to
+      // these network parameters.
+
+      // NOTE: this is not in the XMLHttpRequest API, and will not work in
+      // browsers.  It is a stable node-xhr2 API.
+
+      // @param {Object} options one or more of the options below
+      // @option options {?http.Agent} httpAgent the value for the nodejsHttpAgent
+      //   property (the agent used for HTTP requests)
+      // @option options {?https.Agent} httpsAgent the value for the
+      //   nodejsHttpsAgent property (the agent used for HTTPS requests)
+      // @return {undefined} undefined
+      nodejsSet(options) {
+        var baseUrl, parsedUrl;
+        if ('httpAgent' in options) {
+          this.nodejsHttpAgent = options.httpAgent;
+        }
+        if ('httpsAgent' in options) {
+          this.nodejsHttpsAgent = options.httpsAgent;
+        }
+        if ('baseUrl' in options) {
+          baseUrl = options.baseUrl;
+          if (baseUrl !== null) {
+            parsedUrl = url.parse(baseUrl, false, true);
+            if (!parsedUrl.protocol) {
+              throw new SyntaxError("baseUrl must be an absolute URL");
+            }
+          }
+          this.nodejsBaseUrl = baseUrl;
+        }
+        return void 0;
+      }
+
+      // Default settings for the network configuration not exposed in the XHR API.
+
+      // NOTE: this is not in the XMLHttpRequest API, and will not work in
+      // browsers.  It is a stable node-xhr2 API.
+
+      // @param {Object} options one or more of the options below
+      // @option options {?http.Agent} httpAgent the default value for the
+      //   nodejsHttpAgent property (the agent used for HTTP requests)
+      // @option options {https.Agent} httpsAgent the default value for the
+      //   nodejsHttpsAgent property (the agent used for HTTPS requests)
+      // @return {undefined} undefined
+      // @see XMLHttpRequest.nodejsSet
+      static nodejsSet(options) {
+        // "this" will be set to XMLHttpRequest.prototype, so the instance nodejsSet
+        // operates on default property values.
+        XMLHttpRequest.prototype.nodejsSet(options);
+        return void 0;
+      }
+
+      // Sets the readyState property and fires the readystatechange event.
+
+      // @private
+      // @param {Number} newReadyState the new value of readyState
+      // @return {undefined} undefined
+      _setReadyState(newReadyState) {
+        var event;
+        this.readyState = newReadyState;
+        event = new ProgressEvent('readystatechange');
+        this.dispatchEvent(event);
+        return void 0;
+      }
+
+      // XMLHttpRequest#send() implementation for the file: protocol.
+
+      // @private
+      _sendFile() {
+        if (this._url.method !== 'GET') {
+          throw new NetworkError('The file protocol only supports GET');
+        }
+        throw new Error("Protocol file: not implemented");
+      }
+
+      // XMLHttpRequest#send() implementation for the http: and https: protocols.
+
+      // @private
+      // This method sets the instance variables and calls _sendHxxpRequest(), which
+      // is responsible for building a node.js request and firing it off. The code
+      // in _sendHxxpRequest() is separated off so it can be reused when handling
+      // redirects.
+
+      // @see http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send()-method
+      _sendHttp(data) {
+        if (this._sync) {
+          throw new Error("Synchronous XHR processing not implemented");
+        }
+        if ((data != null) && (this._method === 'GET' || this._method === 'HEAD')) {
+          console.warn(`Discarding entity body for ${this._method} requests`);
+          data = null;
+        } else {
+          // Send Content-Length: 0
+          data || (data = '');
+        }
+        // NOTE: this is called before finalizeHeaders so that the uploader can
+        //       figure out Content-Length and Content-Type.
+        this.upload._setData(data);
+        this._finalizeHeaders();
+        this._sendHxxpRequest();
+        return void 0;
+      }
+
+      // Sets up and fires off a HTTP/HTTPS request using the node.js API.
+
+      // @private
+      // This method contains the bulk of the XMLHttpRequest#send() implementation,
+      // and is also used to issue new HTTP requests when handling HTTP redirects.
+
+      // @see http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send()-method
+      _sendHxxpRequest() {
+        var agent, hxxp, request;
+        if (this._url.protocol === 'http:') {
+          hxxp = http;
+          agent = this.nodejsHttpAgent;
+        } else {
+          hxxp = https;
+          agent = this.nodejsHttpsAgent;
+        }
+        request = hxxp.request({
+          hostname: this._url.hostname,
+          port: this._url.port,
+          path: this._url.path,
+          auth: this._url.auth,
+          method: this._method,
+          headers: this._headers,
+          agent: agent
+        });
+        this._request = request;
+        if (this.timeout) {
+          request.setTimeout(this.timeout, () => {
+            return this._onHttpTimeout(request);
+          });
+        }
+        request.on('response', (response) => {
+          return this._onHttpResponse(request, response);
+        });
+        request.on('error', (error) => {
+          return this._onHttpRequestError(request, error);
+        });
+        this.upload._startUpload(request);
+        if (this._request === request) { // An http error might have already fired.
+          this._dispatchProgress('loadstart');
+        }
+        return void 0;
+      }
+
+      // Fills in the restricted HTTP headers with default values.
+
+      // This is called right before the HTTP request is sent off.
+
+      // @private
+      // @return {undefined} undefined
+      _finalizeHeaders() {
+        this._headers['Connection'] = 'keep-alive';
+        this._headers['Host'] = this._url.host;
+        if (this._anonymous) {
+          this._headers['Referer'] = 'about:blank';
+        }
+        this._headers['User-Agent'] = this._userAgent;
+        this.upload._finalizeHeaders(this._headers, this._loweredHeaders);
+        return void 0;
+      }
+
+      // Called when the headers of an HTTP response have been received.
+
+      // @private
+      // @param {http.ClientRequest} request the node.js ClientRequest instance that
+      //   produced this response
+      // @param {http.ClientResponse} response the node.js ClientResponse instance
+      //   passed to
+      _onHttpResponse(request, response) {
+        var lengthString;
+        if (this._request !== request) {
+          return;
+        }
+        // Transparent redirection handling.
+        switch (response.statusCode) {
+          case 301:
+          case 302:
+          case 303:
+          case 307:
+          case 308:
+            this._url = this._parseUrl(response.headers['location']);
+            this._method = 'GET';
+            if ('content-type' in this._loweredHeaders) {
+              delete this._headers[this._loweredHeaders['content-type']];
+              delete this._loweredHeaders['content-type'];
+            }
+            // XMLHttpRequestUpload#_finalizeHeaders() sets Content-Type directly.
+            if ('Content-Type' in this._headers) {
+              delete this._headers['Content-Type'];
+            }
+            // Restricted headers can't be set by the user, no need to check
+            // loweredHeaders.
+            delete this._headers['Content-Length'];
+            this.upload._reset();
+            this._finalizeHeaders();
+            this._sendHxxpRequest();
+            return;
+        }
+        this._response = response;
+        this._response.on('data', (data) => {
+          return this._onHttpResponseData(response, data);
+        });
+        this._response.on('end', () => {
+          return this._onHttpResponseEnd(response);
+        });
+        this._response.on('close', () => {
+          return this._onHttpResponseClose(response);
+        });
+        this.responseURL = this._url.href.split('#')[0];
+        this.status = this._response.statusCode;
+        this.statusText = http.STATUS_CODES[this.status];
+        this._parseResponseHeaders(response);
+        if (lengthString = this._responseHeaders['content-length']) {
+          this._totalBytes = parseInt(lengthString);
+          this._lengthComputable = true;
+        } else {
+          this._lengthComputable = false;
+        }
+        return this._setReadyState(XMLHttpRequest.HEADERS_RECEIVED);
+      }
+
+      // Called when some data has been received on a HTTP connection.
+
+      // @private
+      // @param {http.ClientResponse} response the node.js ClientResponse instance
+      //   that fired this event
+      // @param {String, Buffer} data the data that has been received
+      _onHttpResponseData(response, data) {
+        if (this._response !== response) {
+          return;
+        }
+        this._responseParts.push(data);
+        this._loadedBytes += data.length;
+        if (this.readyState !== XMLHttpRequest.LOADING) {
+          this._setReadyState(XMLHttpRequest.LOADING);
+        }
+        return this._dispatchProgress('progress');
+      }
+
+      // Called when the HTTP request finished processing.
+
+      // @private
+      // @param {http.ClientResponse} response the node.js ClientResponse instance
+      //   that fired this event
+      _onHttpResponseEnd(response) {
+        if (this._response !== response) {
+          return;
+        }
+        this._parseResponse();
+        this._request = null;
+        this._response = null;
+        this._setReadyState(XMLHttpRequest.DONE);
+        this._dispatchProgress('load');
+        return this._dispatchProgress('loadend');
+      }
+
+      // Called when the underlying HTTP connection was closed prematurely.
+
+      // If this method is called, it will be called after or instead of
+      // onHttpResponseEnd.
+
+      // @private
+      // @param {http.ClientResponse} response the node.js ClientResponse instance
+      //   that fired this event
+      _onHttpResponseClose(response) {
+        var request;
+        if (this._response !== response) {
+          return;
+        }
+        request = this._request;
+        this._setError();
+        request.abort();
+        this._setReadyState(XMLHttpRequest.DONE);
+        this._dispatchProgress('error');
+        return this._dispatchProgress('loadend');
+      }
+
+      // Called when the timeout set on the HTTP socket expires.
+
+      // @private
+      // @param {http.ClientRequest} request the node.js ClientRequest instance that
+      //   fired this event
+      _onHttpTimeout(request) {
+        if (this._request !== request) {
+          return;
+        }
+        this._setError();
+        request.abort();
+        this._setReadyState(XMLHttpRequest.DONE);
+        this._dispatchProgress('timeout');
+        return this._dispatchProgress('loadend');
+      }
+
+      // Called when something wrong happens on the HTTP socket
+
+      // @private
+      // @param {http.ClientRequest} request the node.js ClientRequest instance that
+      //   fired this event
+      // @param {Error} error emitted exception
+      _onHttpRequestError(request, error) {
+        if (this._request !== request) {
+          return;
+        }
+        this._setError();
+        request.abort();
+        this._setReadyState(XMLHttpRequest.DONE);
+        this._dispatchProgress('error');
+        return this._dispatchProgress('loadend');
+      }
+
+      // Fires an XHR progress event.
+
+      // @private
+      // @param {String} eventType one of the XHR progress event types, such as
+      //   'load' and 'progress'
+      _dispatchProgress(eventType) {
+        var event;
+        event = new ProgressEvent(eventType);
+        event.lengthComputable = this._lengthComputable;
+        event.loaded = this._loadedBytes;
+        event.total = this._totalBytes;
+        this.dispatchEvent(event);
+        return void 0;
+      }
+
+      // Sets up the XHR to reflect the fact that an error has occurred.
+
+      // The possible errors are a network error, a timeout, or an abort.
+
+      // @private
+      _setError() {
+        this._request = null;
+        this._response = null;
+        this._responseHeaders = null;
+        this._responseParts = null;
+        return void 0;
+      }
+
+      // Parses a request URL string.
+
+      // @private
+      // This method is a thin wrapper around url.parse() that normalizes HTTP
+      // user/password credentials. It is used to parse the URL string passed to
+      // XMLHttpRequest#open() and the URLs in the Location headers of HTTP redirect
+      // responses.
+
+      // @param {String} urlString the URL to be parsed
+      // @return {Object} parsed URL
+      _parseUrl(urlString) {
+        var absoluteUrlString, index, password, user, xhrUrl;
+        if (this.nodejsBaseUrl === null) {
+          absoluteUrlString = urlString;
+        } else {
+          absoluteUrlString = url.resolve(this.nodejsBaseUrl, urlString);
+        }
+        xhrUrl = url.parse(absoluteUrlString, false, true);
+        xhrUrl.hash = null;
+        if (xhrUrl.auth && ((typeof user !== "undefined" && user !== null) || (typeof password !== "undefined" && password !== null))) {
+          index = xhrUrl.auth.indexOf(':');
+          if (index === -1) {
+            if (!user) {
+              user = xhrUrl.auth;
+            }
+          } else {
+            if (!user) {
+              user = xhrUrl.substring(0, index);
+            }
+            if (!password) {
+              password = xhrUrl.substring(index + 1);
+            }
+          }
+        }
+        if (user || password) {
+          xhrUrl.auth = `${user}:${password}`;
+        }
+        return xhrUrl;
+      }
+
+      // Reads the headers from a node.js ClientResponse instance.
+
+      // @private
+      // @param {http.ClientResponse} response the response whose headers will be
+      //   imported into this XMLHttpRequest's state
+      // @return {undefined} undefined
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
+      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders()-method
+      _parseResponseHeaders(response) {
+        var loweredName, name, ref, value;
+        this._responseHeaders = {};
+        ref = response.headers;
+        for (name in ref) {
+          value = ref[name];
+          loweredName = name.toLowerCase();
+          if (this._privateHeaders[loweredName]) {
+            continue;
+          }
+          if (this._mimeOverride !== null && loweredName === 'content-type') {
+            value = this._mimeOverride;
+          }
+          this._responseHeaders[loweredName] = value;
+        }
+        if (this._mimeOverride !== null && !('content-type' in this._responseHeaders)) {
+          this._responseHeaders['content-type'] = this._mimeOverride;
+        }
+        return void 0;
+      }
+
+      // Sets the response and responseText properties when an XHR completes.
+
+      // @private
+      // @return {undefined} undefined
+      _parseResponse() {
+        var arrayBuffer, buffer, i, j, jsonError, ref, view;
+        if (Buffer.concat) {
+          buffer = Buffer.concat(this._responseParts);
+        } else {
+          // node 0.6
+          buffer = this._concatBuffers(this._responseParts);
+        }
+        this._responseParts = null;
+        switch (this.responseType) {
+          case 'text':
+            this._parseTextResponse(buffer);
+            break;
+          case 'json':
+            this.responseText = null;
+            try {
+              this.response = JSON.parse(buffer.toString('utf-8'));
+            } catch (error1) {
+              jsonError = error1;
+              this.response = null;
+            }
+            break;
+          case 'buffer':
+            this.responseText = null;
+            this.response = buffer;
+            break;
+          case 'arraybuffer':
+            this.responseText = null;
+            arrayBuffer = new ArrayBuffer(buffer.length);
+            view = new Uint8Array(arrayBuffer);
+            for (i = j = 0, ref = buffer.length; (0 <= ref ? j < ref : j > ref); i = 0 <= ref ? ++j : --j) {
+              view[i] = buffer[i];
+            }
+            this.response = arrayBuffer;
+            break;
+          default:
+            // TODO(pwnall): content-base detection
+            this._parseTextResponse(buffer);
+        }
+        return void 0;
+      }
+
+      // Sets response and responseText for a 'text' response type.
+
+      // @private
+      // @param {Buffer} buffer the node.js Buffer containing the binary response
+      // @return {undefined} undefined
+      _parseTextResponse(buffer) {
+        var e;
+        try {
+          this.responseText = buffer.toString(this._parseResponseEncoding());
+        } catch (error1) {
+          e = error1;
+          // Unknown encoding.
+          this.responseText = buffer.toString('binary');
+        }
+        this.response = this.responseText;
+        return void 0;
+      }
+
+      // Figures out the string encoding of the XHR's response.
+
+      // This is called to determine the encoding when responseText is set.
+
+      // @private
+      // @return {String} a string encoding, e.g. 'utf-8'
+      _parseResponseEncoding() {
+        var contentType, encoding, match;
+        encoding = null;
+        if (contentType = this._responseHeaders['content-type']) {
+          if (match = /\;\s*charset\=(.*)$/.exec(contentType)) {
+            return match[1];
+          }
+        }
+        return 'utf-8';
+      }
+
+      // Buffer.concat implementation for node 0.6.
+
+      // @private
+      // @param {Array<Buffer>} buffers the buffers whose contents will be merged
+      // @return {Buffer} same as Buffer.concat(buffers) in node 0.8 and above
+      _concatBuffers(buffers) {
+        var buffer, j, k, len, len1, length, target;
+        if (buffers.length === 0) {
+          return Buffer.alloc(0);
+        }
+        if (buffers.length === 1) {
+          return buffers[0];
+        }
+        length = 0;
+        for (j = 0, len = buffers.length; j < len; j++) {
+          buffer = buffers[j];
+          length += buffer.length;
+        }
+        target = Buffer.alloc(length);
+        length = 0;
+        for (k = 0, len1 = buffers.length; k < len1; k++) {
+          buffer = buffers[k];
+          buffer.copy(target, length);
+          length += buffer.length;
+        }
+        return target;
+      }
+
+    };
+
+    // @property {function(ProgressEvent)} DOM level 0-style handler for the
+    //   'readystatechange' event
+    XMLHttpRequest.prototype.onreadystatechange = null;
+
+    // @property {Number} the current state of the XHR object
+    // @see http://www.w3.org/TR/XMLHttpRequest/#states
+    XMLHttpRequest.prototype.readyState = null;
+
+    // @property {String, ArrayBuffer, Buffer, Object} processed XHR response
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-response-attribute
+    XMLHttpRequest.prototype.response = null;
+
+    // @property {String} response string, if responseType is '' or 'text'
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-responsetext-attribute
+    XMLHttpRequest.prototype.responseText = null;
+
+    // @property {String} sets the parsing method for the XHR response
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-responsetype-attribute
+    XMLHttpRequest.prototype.responseType = null;
+
+    // @property {Number} the HTTP
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-status-attribute
+    XMLHttpRequest.prototype.status = null;
+
+    // @property {Number} milliseconds to wait for the request to complete
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-timeout-attribute
+    XMLHttpRequest.prototype.timeout = null;
+
+    // @property {XMLHttpRequestUpload} the associated upload information
+    // @see http://www.w3.org/TR/XMLHttpRequest/#the-upload-attribute
+    XMLHttpRequest.prototype.upload = null;
+
+    // readyState value before XMLHttpRequest#open() is called
+    XMLHttpRequest.prototype.UNSENT = 0;
+
+    // readyState value before XMLHttpRequest#open() is called
+    XMLHttpRequest.UNSENT = 0;
+
+    // readyState value after XMLHttpRequest#open() is called, and before
+    //   XMLHttpRequest#send() is called; XMLHttpRequest#setRequestHeader() can be
+    //   called in this state
+    XMLHttpRequest.prototype.OPENED = 1;
+
+    // readyState value after XMLHttpRequest#open() is called, and before
+    //   XMLHttpRequest#send() is called; XMLHttpRequest#setRequestHeader() can be
+    //   called in this state
+    XMLHttpRequest.OPENED = 1;
+
+    // readyState value after redirects have been followed and the HTTP headers of
+    //   the final response have been received
+    XMLHttpRequest.prototype.HEADERS_RECEIVED = 2;
+
+    // readyState value after redirects have been followed and the HTTP headers of
+    //   the final response have been received
+    XMLHttpRequest.HEADERS_RECEIVED = 2;
+
+    // readyState value when the response entity body is being received
+    XMLHttpRequest.prototype.LOADING = 3;
+
+    // readyState value when the response entity body is being received
+    XMLHttpRequest.LOADING = 3;
+
+    // readyState value after the request has been completely processed
+    XMLHttpRequest.prototype.DONE = 4;
+
+    // readyState value after the request has been completely processed
+    XMLHttpRequest.DONE = 4;
+
+    // @property {http.Agent} the agent option passed to HTTP requests
+
+    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
+    // It is a stable node-xhr2 API that is useful for testing & going through
+    // web-proxies.
+    XMLHttpRequest.prototype.nodejsHttpAgent = http.globalAgent;
+
+    // @property {https.Agent} the agent option passed to HTTPS requests
+
+    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
+    // It is a stable node-xhr2 API that is useful for testing & going through
+    // web-proxies.
+    XMLHttpRequest.prototype.nodejsHttpsAgent = https.globalAgent;
+
+    // @property {String} the base URL that relative URLs get resolved to
+
+    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
+    // Its browser equivalent is the base URL of the document associated with the
+    // Window object. It is a stable node-xhr2 API provided for libraries such as
+    // Angular Universal.
+    XMLHttpRequest.prototype.nodejsBaseUrl = null;
+
+    // HTTP methods that are disallowed in the XHR spec.
+
+    // @private
+    // @see Step 6 in http://www.w3.org/TR/XMLHttpRequest/#the-open()-method
+    XMLHttpRequest.prototype._restrictedMethods = {
+      CONNECT: true,
+      TRACE: true,
+      TRACK: true
+    };
+
+    // HTTP request headers that are disallowed in the XHR spec.
+
+    // @private
+    // @see Step 5 in
+    //   http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader()-method
+    XMLHttpRequest.prototype._restrictedHeaders = {
+      'accept-charset': true,
+      'accept-encoding': true,
+      'access-control-request-headers': true,
+      'access-control-request-method': true,
+      connection: true,
+      'content-length': true,
+      cookie: true,
+      cookie2: true,
+      date: true,
+      dnt: true,
+      expect: true,
+      host: true,
+      'keep-alive': true,
+      origin: true,
+      referer: true,
+      te: true,
+      trailer: true,
+      'transfer-encoding': true,
+      upgrade: true,
+      'user-agent': true,
+      via: true
+    };
+
+    // HTTP response headers that should not be exposed according to the XHR spec.
+
+    // @private
+    // @see Step 3 in
+    //     http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
+    XMLHttpRequest.prototype._privateHeaders = {
+      'set-cookie': true,
+      'set-cookie2': true
+    };
+
+    // The value of the User-Agent header.
+    XMLHttpRequest.prototype._userAgent = `Mozilla/5.0 (${os.type()} ${os.arch()}) ` + `node.js/${process.versions.node} v8/${process.versions.v8}`;
+
+    return XMLHttpRequest;
+
+  }).call(this);
+
+  // XMLHttpRequest is the result of require('node-xhr2').
+  module.exports = XMLHttpRequest;
+
+  // Make node-xhr2 work as a drop-in replacement for libraries that promote the
+  // following usage pattern:
+  //     var XMLHttpRequest = require('xhr-library-name').XMLHttpRequest
+  XMLHttpRequest.XMLHttpRequest = XMLHttpRequest;
+
+  // This file defines the custom errors used in the XMLHttpRequest specification.
+
+  // Thrown if the XHR security policy is violated.
+  SecurityError = class SecurityError extends Error {
+    // @private
+    constructor() {
+      super();
+    }
+
+  };
+
+  // Thrown if the XHR security policy is violated.
+  XMLHttpRequest.SecurityError = SecurityError;
+
+  // Usually thrown if the XHR is in the wrong readyState for an operation.
+  InvalidStateError = class InvalidStateError extends Error {
+    // @private
+    constructor() {
+      super();
+    }
+
+  };
+
+  // Usually thrown if the XHR is in the wrong readyState for an operation.
+  InvalidStateError = class InvalidStateError extends Error {};
+
+  XMLHttpRequest.InvalidStateError = InvalidStateError;
+
+  // Thrown if there is a problem with the URL passed to the XHR.
+  NetworkError = class NetworkError extends Error {
+    // @private
+    constructor() {
+      super();
+    }
+
+  };
+
+  // Thrown if parsing URLs errors out.
+  XMLHttpRequest.SyntaxError = SyntaxError;
+
+  SyntaxError = class SyntaxError extends Error {
+    // @private:
+    constructor() {
+      super();
+    }
+
+  };
+
+  ProgressEvent = (function() {
+    // http://xhr.spec.whatwg.org/#interface-progressevent
+    class ProgressEvent {
+      // Creates a new event.
+
+      // @param {String} type the event type, e.g. 'readystatechange'; must be
+      //   lowercased
+      constructor(type) {
+        this.type = type;
+        this.target = null;
+        this.currentTarget = null;
+        this.lengthComputable = false;
+        this.loaded = 0;
+        this.total = 0;
+      }
+
+    };
+
+    // Getting the time from the OS is expensive, skip on that for now.
+    // @timeStamp = Date.now()
+
+    // @property {Boolean} for compatibility with DOM events
+    ProgressEvent.prototype.bubbles = false;
+
+    // @property {Boolean} for fompatibility with DOM events
+    ProgressEvent.prototype.cancelable = false;
+
+    // @property {XMLHttpRequest} the request that caused this event
+    ProgressEvent.prototype.target = null;
+
+    // @property {Number} number of bytes that have already been downloaded or
+    //   uploaded
+    ProgressEvent.prototype.loaded = null;
+
+    // @property {Boolean} true if the Content-Length response header is available
+    //   and the value of the event's total property is meaningful
+    ProgressEvent.prototype.lengthComputable = null;
+
+    // @property {Number} number of bytes that will be downloaded or uploaded by
+    //   the request that fired the event
+    ProgressEvent.prototype.total = null;
+
+    return ProgressEvent;
+
+  }).call(this);
+
+  // The XHR spec exports the ProgressEvent constructor.
+  XMLHttpRequest.ProgressEvent = ProgressEvent;
+
+  // @see http://xhr.spec.whatwg.org/#interface-xmlhttprequest
+  XMLHttpRequestUpload = class XMLHttpRequestUpload extends XMLHttpRequestEventTarget {
+    // @private
+    // @param {XMLHttpRequest} the XMLHttpRequest that this upload object is
+    //   associated with
+    constructor(request) {
+      super();
+      this._request = request;
+      this._reset();
+    }
+
+    // Sets up this Upload to handle a new request.
+
+    // @private
+    // @return {undefined} undefined
+    _reset() {
+      this._contentType = null;
+      this._body = null;
+      return void 0;
+    }
+
+    // Implements the upload-related part of the send() XHR specification.
+
+    // @private
+    // @param {?String, ?Buffer, ?ArrayBufferView} data the argument passed to
+    //   XMLHttpRequest#send()
+    // @return {undefined} undefined
+    // @see step 4 of http://www.w3.org/TR/XMLHttpRequest/#the-send()-method
+    _setData(data) {
+      var body, i, j, k, offset, ref, ref1, view;
+      if (typeof data === 'undefined' || data === null) {
+        return;
+      }
+      if (typeof data === 'string') {
+        // DOMString
+        if (data.length !== 0) {
+          this._contentType = 'text/plain;charset=UTF-8';
+        }
+        this._body = Buffer.from(data, 'utf8');
+      } else if (Buffer.isBuffer(data)) {
+        // node.js Buffer
+        this._body = data;
+      } else if (data instanceof ArrayBuffer) {
+        // ArrayBuffer arguments were supported in an old revision of the spec.
+        body = Buffer.alloc(data.byteLength);
+        view = new Uint8Array(data);
+        for (i = j = 0, ref = data.byteLength; (0 <= ref ? j < ref : j > ref); i = 0 <= ref ? ++j : --j) {
+          body[i] = view[i];
+        }
+        this._body = body;
+      } else if (data.buffer && data.buffer instanceof ArrayBuffer) {
+        // ArrayBufferView
+        body = Buffer.alloc(data.byteLength);
+        offset = data.byteOffset;
+        view = new Uint8Array(data.buffer);
+        for (i = k = 0, ref1 = data.byteLength; (0 <= ref1 ? k < ref1 : k > ref1); i = 0 <= ref1 ? ++k : --k) {
+          body[i] = view[i + offset];
+        }
+        this._body = body;
+      } else {
+        // NOTE: diverging from the XHR specification of coercing everything else
+        //       to Strings via toString() because that behavior masks bugs and is
+        //       rarely useful
+        throw new Error(`Unsupported send() data ${data}`);
+      }
+      return void 0;
+    }
+
+    // Updates the HTTP headers right before the request is sent.
+
+    // This is used to set data-dependent headers such as Content-Length and
+    // Content-Type.
+
+    // @private
+    // @param {Object<String, String>} headers the HTTP headers to be sent
+    // @param {Object<String, String>} loweredHeaders maps lowercased HTTP header
+    //   names (e.g., 'content-type') to the actual names used in the headers
+    //   parameter (e.g., 'Content-Type')
+    // @return {undefined} undefined
+    _finalizeHeaders(headers, loweredHeaders) {
+      if (this._contentType) {
+        if (!('content-type' in loweredHeaders)) {
+          headers['Content-Type'] = this._contentType;
+        }
+      }
+      if (this._body) {
+        // Restricted headers can't be set by the user, no need to check
+        // loweredHeaders.
+        headers['Content-Length'] = this._body.length.toString();
+      }
+      return void 0;
+    }
+
+    // Starts sending the HTTP request data.
+
+    // @private
+    // @param {http.ClientRequest} request the HTTP request
+    // @return {undefined} undefined
+    _startUpload(request) {
+      if (this._body) {
+        request.write(this._body);
+      }
+      request.end();
+      return void 0;
+    }
+
+  };
+
+  // Export the XMLHttpRequestUpload constructor.
+  XMLHttpRequest.XMLHttpRequestUpload = XMLHttpRequestUpload;
+
+}).call(this);
+
+
+/***/ }),
+
+/***/ 431:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
@@ -116,10 +1508,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-Object.defineProperty(exports, "__esModule", ({ value: true }));
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.issue = exports.issueCommand = void 0;
-const os = __importStar(__nccwpck_require__(87));
-const utils_1 = __nccwpck_require__(278);
+const os = __importStar(__webpack_require__(87));
+const utils_1 = __webpack_require__(82);
 /**
  * Commands
  *
@@ -191,8 +1583,8 @@ function escapeProperty(s) {
 
 /***/ }),
 
-/***/ 186:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 470:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 "use strict";
 
@@ -224,13 +1616,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
-Object.defineProperty(exports, "__esModule", ({ value: true }));
+Object.defineProperty(exports, "__esModule", { value: true });
 exports.getState = exports.saveState = exports.group = exports.endGroup = exports.startGroup = exports.info = exports.warning = exports.error = exports.debug = exports.isDebug = exports.setFailed = exports.setCommandEcho = exports.setOutput = exports.getBooleanInput = exports.getMultilineInput = exports.getInput = exports.addPath = exports.setSecret = exports.exportVariable = exports.ExitCode = void 0;
-const command_1 = __nccwpck_require__(351);
-const file_command_1 = __nccwpck_require__(717);
-const utils_1 = __nccwpck_require__(278);
-const os = __importStar(__nccwpck_require__(87));
-const path = __importStar(__nccwpck_require__(622));
+const command_1 = __webpack_require__(431);
+const file_command_1 = __webpack_require__(102);
+const utils_1 = __webpack_require__(82);
+const os = __importStar(__webpack_require__(87));
+const path = __importStar(__webpack_require__(622));
 /**
  * The code to exit an action
  */
@@ -492,84 +1884,8 @@ exports.getState = getState;
 
 /***/ }),
 
-/***/ 717:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
-
-"use strict";
-
-// For internal use, subject to change.
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
-    Object.defineProperty(o, "default", { enumerable: true, value: v });
-}) : function(o, v) {
-    o["default"] = v;
-});
-var __importStar = (this && this.__importStar) || function (mod) {
-    if (mod && mod.__esModule) return mod;
-    var result = {};
-    if (mod != null) for (var k in mod) if (k !== "default" && Object.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
-    __setModuleDefault(result, mod);
-    return result;
-};
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.issueCommand = void 0;
-// We use any as a valid input type
-/* eslint-disable @typescript-eslint/no-explicit-any */
-const fs = __importStar(__nccwpck_require__(747));
-const os = __importStar(__nccwpck_require__(87));
-const utils_1 = __nccwpck_require__(278);
-function issueCommand(command, message) {
-    const filePath = process.env[`GITHUB_${command}`];
-    if (!filePath) {
-        throw new Error(`Unable to find environment variable for file command ${command}`);
-    }
-    if (!fs.existsSync(filePath)) {
-        throw new Error(`Missing file at path: ${filePath}`);
-    }
-    fs.appendFileSync(filePath, `${utils_1.toCommandValue(message)}${os.EOL}`, {
-        encoding: 'utf8'
-    });
-}
-exports.issueCommand = issueCommand;
-//# sourceMappingURL=file-command.js.map
-
-/***/ }),
-
-/***/ 278:
-/***/ ((__unused_webpack_module, exports) => {
-
-"use strict";
-
-// We use any as a valid input type
-/* eslint-disable @typescript-eslint/no-explicit-any */
-Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.toCommandValue = void 0;
-/**
- * Sanitizes an input into a string so it can be passed into issueCommand safely
- * @param input input to sanitize into a string
- */
-function toCommandValue(input) {
-    if (input === null || input === undefined) {
-        return '';
-    }
-    else if (typeof input === 'string' || input instanceof String) {
-        return input;
-    }
-    return JSON.stringify(input);
-}
-exports.toCommandValue = toCommandValue;
-//# sourceMappingURL=utils.js.map
-
-/***/ }),
-
-/***/ 736:
-/***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
+/***/ 551:
+/***/ (function(__unusedmodule, exports, __webpack_require__) {
 
 var $jscomp=$jscomp||{};$jscomp.scope={};$jscomp.arrayIteratorImpl=function(h){var g=0;return function(){return g<h.length?{done:!1,value:h[g++]}:{done:!0}}};$jscomp.arrayIterator=function(h){return{next:$jscomp.arrayIteratorImpl(h)}};$jscomp.makeIterator=function(h){var g="undefined"!=typeof Symbol&&Symbol.iterator&&h[Symbol.iterator];return g?g.call(h):$jscomp.arrayIterator(h)};
 $jscomp.getGlobal=function(h){return"undefined"!=typeof window&&window===h?h:"undefined"!=typeof global&&null!=global?global:h};$jscomp.global=$jscomp.getGlobal(this);$jscomp.ASSUME_ES5=!1;$jscomp.ASSUME_NO_NATIVE_MAP=!1;$jscomp.ASSUME_NO_NATIVE_SET=!1;$jscomp.SIMPLE_FROUND_POLYFILL=!1;$jscomp.defineProperty=$jscomp.ASSUME_ES5||"function"==typeof Object.defineProperties?Object.defineProperty:function(h,g,q){h!=Array.prototype&&h!=Object.prototype&&(h[g]=q.value)};
@@ -596,7 +1912,7 @@ q+" lesser than callbackIndex "+this.callbackIndex);q in this.callbacksCapabilit
 message:g.message};if(a)for(var q in a)a.hasOwnProperty(q)&&(g[q]=a[q])}this.postMessage({isReply:!0,callbackId:h,error:g})},getPromise:function(g){if(g in this.callbacksCapabilities)return this.callbacksCapabilities[g];h.utils.error("Cannot get promise for callback "+g)},cancelPromise:function(g){if(g in this.callbacksCapabilities){var q=this.callbacksCapabilities[g];delete this.callbacksCapabilities[g];q.reject({type:"Cancelled",message:"Request has been cancelled."});this.postMessage({action:"actionCancel",
 data:{callbackId:g}})}else h.utils.warn("Cannot cancel callback "+g)},postMessage:function(g){if(this.postMessageTransfers){var h=this.getTransfersArray(g);this.comObj.postMessage(g,h)}else this.comObj.postMessage(g)},getObjectTransfers:function(g,h){if("object"===typeof g)if(g instanceof Uint8Array)h.push(g.buffer);else if(g instanceof ArrayBuffer)h.push(g);else for(var a in g)g.hasOwnProperty(a)&&this.getObjectTransfers(g[a],h)},getTransfersArray:function(g){var h=[];this.getObjectTransfers(g,h);
 return 0===h.length?void 0:h},handleMessage:function(g){var q=this,a=g.data,t=this.actionHandler,u=this.actionHandlerAsync;g=this.callbacksCapabilities;if(a.isReply)t=a.callbackId,t in g?(u=g[t],delete g[t],"error"in a?u.reject(a.error):u.resolve(a.data)):h.utils.warn("Cannot resolve callback "+t);else if(a.action in t){var d=t[a.action];a.callbackId?Promise.resolve().then(function(){return d[0].call(d[1],a.data)}).then(function(d){q.postMessage({isReply:!0,callbackId:a.callbackId,data:d})},function(d){q.sendError(d,
-a.callbackId)}):d[0].call(d[1],a.data)}else a.action in u?(d=u[a.action],a.callbackId?d[0].call(d[1],a).then(function(d){q.postMessage({isReply:!0,callbackId:a.callbackId,data:d});q.nextAsync()},function(d){q.sendError(d,a.callbackId);q.nextAsync()}):d[0].call(d[1],a).then(function(){q.nextAsync()},function(){q.nextAsync()})):h.utils.error("Unknown action from worker: "+a.action)}}})("undefined"===typeof window?this:window);(function(h){h.utils=h.utils||{};h.utils.isJSWorker=!0;h.utils.isNodeJS=!0;h.jsworker={loadWorker:function(){try{var g=__nccwpck_require__(18)}catch(q){if("object"===typeof q&&Object.keys(q).length)throw q;throw{addon:""+q};}g.getWorkerType=function(){return"node"};return g},utils:{getResourcesDir:function(g){g(null,"./pdfnet.res")}}}})("undefined"===typeof window?this:window);var XMLHttpRequest=__nccwpck_require__(669).XMLHttpRequest;
+a.callbackId)}):d[0].call(d[1],a.data)}else a.action in u?(d=u[a.action],a.callbackId?d[0].call(d[1],a).then(function(d){q.postMessage({isReply:!0,callbackId:a.callbackId,data:d});q.nextAsync()},function(d){q.sendError(d,a.callbackId);q.nextAsync()}):d[0].call(d[1],a).then(function(){q.nextAsync()},function(){q.nextAsync()})):h.utils.error("Unknown action from worker: "+a.action)}}})("undefined"===typeof window?this:window);(function(h){h.utils=h.utils||{};h.utils.isJSWorker=!0;h.utils.isNodeJS=!0;h.jsworker={loadWorker:function(){try{var g=__webpack_require__(630)}catch(q){if("object"===typeof q&&Object.keys(q).length)throw q;throw{addon:""+q};}g.getWorkerType=function(){return"node"};return g},utils:{getResourcesDir:function(g){g(null,"./pdfnet.res")}}}})("undefined"===typeof window?this:window);var XMLHttpRequest=__webpack_require__(405).XMLHttpRequest;
 (function(h){function g(){return{putBool:function(a,c,e){if(!1!==e&&!0!==e)throw new TypeError("An boolean value is expected for putBool");a[c]=e},putNumber:function(a,c,e){a[c]=0+e},jsColorToNumber:function(a){return 16777216*Math.floor(a.A)+65536*Math.floor(a.R)+256*Math.floor(a.G)+Math.floor(a.B)},jsColorFromNumber:function(a){return{A:5.9604644775390625E-8*a&255,R:((a|0)&16711680)>>>16,G:((a|0)&65280)>>>8,B:(a|0)&255}}}}function q(a){function b(c){c=a.next(c);var e=c.value;return c.done?c.value:
 e.then(b)}return Promise.resolve().then(b)}var a=h.PDFNet?h.PDFNet:{};a.Convert=h.PDFNet&&h.PDFNet.Convert?h.PDFNet.Convert:{};a.Optimizer={};h.CoreControls&&h.CoreControls.enableFullPDF(!0);h.isArrayBuffer=function(a){return a instanceof ArrayBuffer||null!=a&&null!=a.constructor&&"ArrayBuffer"===a.constructor.name&&"number"===typeof a.byteLength};a.Destroyable=function(){if(this.constructor===a.Destroyable)throw Error("Can't instantiate abstract class!");};a.Destroyable.prototype.takeOwnership=function(){r(this.id)};
 a.Destroyable.prototype.destroy=function(){this.takeOwnership();return a.messageHandler.sendWithPromise(this.name+".destroy",{auto_dealloc_obj:this.id},this.userPriority)};a.createRefreshOptions=function(){return Promise.resolve(new a.RefreshOptions)};a.RefreshOptions=function(){this.mImpl={};this.mHelpers=g()};a.RefreshOptions.prototype.getDrawBackgroundOnly=function(){return"DrawBackgroundOnly"in mImpl?!!mImpl.DrawBackgroundOnly:!0};a.RefreshOptions.prototype.setDrawBackgroundOnly=function(a){mHelpers.putBool(mImpl,
@@ -1768,7 +3084,7 @@ typeof k+"'. Expected type 'number'. Function Signature: createFromFile(convert,
 return a.messageHandler.sendWithPromise("pdfaComplianceCreateFromFile",{convert:b,file_path:c,password:d,conform:f,excep:g.buffer,max_ref_objs:k,first_stop:l},this.userPriority).then(function(b){b=new a.PDFACompliance(b);createdObjects.push({name:b.name,id:b.id});return b})};a.ElementBuilder.prototype.createUnicodeTextRun=function(b){d(arguments.length,1,"createUnicodeTextRun","(string)",[[b,"string"]]);return a.messageHandler.sendWithPromise("ElementBuilder.createUnicodeTextRun",{b:this.id,text_data:b},
 this.userPriority).then(function(b){return f(a.Element,b)})};a.shutdown=function(){if(0!=arguments.length)throw new RangeError(arguments.length+" arguments passed into function 'shutdown'. Expected 0 arguments. Function Signature: shutdown()");a.messageHandler.messageHandler&&a.messageHandler.messageHandler.comObj.shutdown();B=!0};a.beginOperation=function(a){return Promise.resolve()};a.finishOperation=function(){return Promise.resolve()};a.runWithCleanup=function(b,c){var d,f=!1;return w=w.then(function(){},
 function(){}).then(function(){return a.initialize(c)}).then(function(){f=!0;a.startDeallocateStack();return b()}).then(function(b){d=b;f=!1;return a.endDeallocateStack()}).then(function(){if(0<stackCallCounter)throw Error('Detected not yet deallocated stack. You may have called "PDFNet.startDeallocateStack()" somewhere without calling "PDFNet.endDeallocateStack()" afterwards.');return d}).catch(function(b){f&&a.endDeallocateStack();throw b;})};a.runWithoutCleanup=function(b,c){return w=w.then(function(){},
-function(){}).then(function(){return a.initialize(c)}).then(function(){return b()}).then(function(a){return a})};h.PDFNet=a})("undefined"===typeof window?this:window);var _=__nccwpck_require__(870);
+function(){}).then(function(){return a.initialize(c)}).then(function(){return b()}).then(function(a){return a})};h.PDFNet=a})("undefined"===typeof window?this:window);var _=__webpack_require__(776);
 (function(h){function g(b,c,d,e){if(_.isUndefined(b))return null;var g;c=new Promise(function(a,c){f(function(){c(new WorkerError("The worker has encountered an error",h.utils.ie?"error.EmsWorkerErrorIE":"error.EmsWorkerError"))});var e={};t&&(e.workerHeapSize=t);l&&(e.pdfResourcePath=l);n&&(e.pdfAsmPath=n);if(!h.utils.isJSWorker){var m=h.location.href,k=m.lastIndexOf("#");k=m.lastIndexOf("/",k);-1!==k&&(e.parentUrl=m.substring(0,k+1))}g=new h.WorkerTransport(b,d,e);g.backendType=r.getCurrentPDFBackendType();
 g.workerInitializedPromise.then(function(){a()},function(a){c(a)})});var m=new Promise(function(a,b){if(h.utils.isJSWorker&&h.jsworker&&h.jsworker.utils)h.jsworker.utils.getResourcesDir?h.jsworker.utils.getResourcesDir(function(c,d){c?b(c):a(d)}):h.jsworker.utils.getHTMLContentPath?h.jsworker.utils.getHTMLContentPath(function(c){c?(c.endsWith("/")||(c+="/"),a(c+"js/html5/pdf/")):b(new WorkerError("Couldn't fetch resource file path."))}):b(new WorkerError("Some functions required for fetching resources are not defined."));
 else{var c=new XMLHttpRequest;c.open("GET",h.CoreControls.getPDFResourcePath()+"pdfnet.res",!0);c.responseType="arraybuffer";c.onload=function(){200===c.status?a(c.response):b(new WorkerError("Couldn't fetch resource file.","error.ResourceLoadError"))};c.onerror=function(){b(new WorkerError("Network error","error.ResourceLoadError"))};c.send(null)}});return Promise.all([c,m]).then(function(a){return h.utils.isJSWorker&&h.jsworker&&h.jsworker.utils?g.loadResourceFileFromPath(a[1],e):g.loadResourceFile(a[1],
@@ -1814,12 +3130,40 @@ this.textPriority)}};return h}();(function(h){var g=h._trnDebugMode||h._trnLogMo
 
 /***/ }),
 
-/***/ 870:
+/***/ 605:
+/***/ (function(module) {
+
+module.exports = require("http");
+
+/***/ }),
+
+/***/ 622:
+/***/ (function(module) {
+
+module.exports = require("path");
+
+/***/ }),
+
+/***/ 630:
+/***/ (function(module, __unusedexports, __webpack_require__) {
+
+module.exports = require(__webpack_require__.ab + "lib/addon.node")
+
+/***/ }),
+
+/***/ 747:
+/***/ (function(module) {
+
+module.exports = require("fs");
+
+/***/ }),
+
+/***/ 776:
 /***/ (function(module) {
 
 (function (global, factory) {
    true ? module.exports = factory() :
-  0;
+  undefined;
 }(this, (function () {
   //     Underscore.js 1.12.1
   //     https://underscorejs.org
@@ -3850,1349 +5194,11 @@ this.textPriority)}};return h}();(function(h){var g=h._trnDebugMode||h._trnLogMo
 
 /***/ }),
 
-/***/ 669:
-/***/ (function(module, __unused_webpack_exports, __nccwpck_require__) {
-
-// Generated by CoffeeScript 2.4.1
-(function() {
-  // This file's name is set up in such a way that it will always show up first in
-  // the list of files given to coffee --join, so that the other files can assume
-  // that XMLHttpRequestEventTarget was already defined.
-
-  // The DOM EventTarget subclass used by XMLHttpRequest.
-
-  // @see http://xhr.spec.whatwg.org/#interface-xmlhttprequest
-  var InvalidStateError, NetworkError, ProgressEvent, SecurityError, SyntaxError, XMLHttpRequest, XMLHttpRequestEventTarget, XMLHttpRequestUpload, http, https, os, url;
-
-  XMLHttpRequestEventTarget = (function() {
-    class XMLHttpRequestEventTarget {
-      // @private
-      // This is an abstract class and should not be instantiated directly.
-      constructor() {
-        this.onloadstart = null;
-        this.onprogress = null;
-        this.onabort = null;
-        this.onerror = null;
-        this.onload = null;
-        this.ontimeout = null;
-        this.onloadend = null;
-        this._listeners = {};
-      }
-
-      // Adds a new-style listener for one of the XHR events.
-
-      // @see http://www.w3.org/TR/XMLHttpRequest/#events
-
-      // @param {String} eventType an XHR event type, such as 'readystatechange'
-      // @param {function(ProgressEvent)} listener function that will be called when
-      //   the event fires
-      // @return {undefined} undefined
-      addEventListener(eventType, listener) {
-        var base;
-        eventType = eventType.toLowerCase();
-        (base = this._listeners)[eventType] || (base[eventType] = []);
-        this._listeners[eventType].push(listener);
-        return void 0;
-      }
-
-      // Removes an event listener added by calling addEventListener.
-
-      // @param {String} eventType an XHR event type, such as 'readystatechange'
-      // @param {function(ProgressEvent)} listener the value passed in a previous
-      //   call to addEventListener.
-      // @return {undefined} undefined
-      removeEventListener(eventType, listener) {
-        var index;
-        eventType = eventType.toLowerCase();
-        if (this._listeners[eventType]) {
-          index = this._listeners[eventType].indexOf(listener);
-          if (index !== -1) {
-            this._listeners[eventType].splice(index, 1);
-          }
-        }
-        return void 0;
-      }
-
-      // Calls all the listeners for an event.
-
-      // @param {ProgressEvent} event the event to be dispatched
-      // @return {undefined} undefined
-      dispatchEvent(event) {
-        var eventType, j, len, listener, listeners;
-        event.currentTarget = event.target = this;
-        eventType = event.type;
-        if (listeners = this._listeners[eventType]) {
-          for (j = 0, len = listeners.length; j < len; j++) {
-            listener = listeners[j];
-            listener.call(this, event);
-          }
-        }
-        if (listener = this[`on${eventType}`]) {
-          listener.call(this, event);
-        }
-        return void 0;
-      }
-
-    };
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'loadstart' event
-    XMLHttpRequestEventTarget.prototype.onloadstart = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'progress' event
-    XMLHttpRequestEventTarget.prototype.onprogress = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'abort' event
-    XMLHttpRequestEventTarget.prototype.onabort = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'error' event
-    XMLHttpRequestEventTarget.prototype.onerror = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'load' event
-    XMLHttpRequestEventTarget.prototype.onload = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'timeout' event
-    XMLHttpRequestEventTarget.prototype.ontimeout = null;
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler
-    //   for the 'loadend' event
-    XMLHttpRequestEventTarget.prototype.onloadend = null;
-
-    return XMLHttpRequestEventTarget;
-
-  }).call(this);
-
-  // This file's name is set up in such a way that it will always show up second
-  // in the list of files given to coffee --join, so it can use the
-  // XMLHttpRequestEventTarget definition and so that the other files can assume
-  // that XMLHttpRequest was already defined.
-  http = __nccwpck_require__(605);
-
-  https = __nccwpck_require__(211);
-
-  os = __nccwpck_require__(87);
-
-  url = __nccwpck_require__(835);
-
-  XMLHttpRequest = (function() {
-    // The ECMAScript HTTP API.
-
-    // @see http://www.w3.org/TR/XMLHttpRequest/#introduction
-    class XMLHttpRequest extends XMLHttpRequestEventTarget {
-      // Creates a new request.
-
-      // @param {Object} options one or more of the options below
-      // @option options {Boolean} anon if true, the request's anonymous flag
-      //   will be set
-      // @see http://www.w3.org/TR/XMLHttpRequest/#constructors
-      // @see http://www.w3.org/TR/XMLHttpRequest/#anonymous-flag
-      constructor(options) {
-        super();
-        this.onreadystatechange = null;
-        this._anonymous = options && options.anon;
-        this.readyState = XMLHttpRequest.UNSENT;
-        this.response = null;
-        this.responseText = '';
-        this.responseType = '';
-        this.responseURL = '';
-        this.status = 0;
-        this.statusText = '';
-        this.timeout = 0;
-        this.upload = new XMLHttpRequestUpload(this);
-        this._method = null; // String
-        this._url = null; // Return value of url.parse()
-        this._sync = false;
-        this._headers = null; // Object<String, String>
-        this._loweredHeaders = null; // Object<lowercase String, String>
-        this._mimeOverride = null;
-        this._request = null; // http.ClientRequest
-        this._response = null; // http.ClientResponse
-        this._responseParts = null; // Array<Buffer, String>
-        this._responseHeaders = null; // Object<lowercase String, String>
-        this._aborting = null;
-        this._error = null;
-        this._loadedBytes = 0;
-        this._totalBytes = 0;
-        this._lengthComputable = false;
-      }
-
-      // Sets the XHR's method, URL, synchronous flag, and authentication params.
-
-      // @param {String} method the HTTP method to be used
-      // @param {String} url the URL that the request will be made to
-      // @param {?Boolean} async if false, the XHR should be processed
-      //   synchronously; true by default
-      // @param {?String} user the user credential to be used in HTTP basic
-      //   authentication
-      // @param {?String} password the password credential to be used in HTTP basic
-      //   authentication
-      // @return {undefined} undefined
-      // @throw {SecurityError} method is not one of the allowed methods
-      // @throw {SyntaxError} urlString is not a valid URL
-      // @throw {Error} the URL contains an unsupported protocol; the supported
-      //   protocols are file, http and https
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-open()-method
-      open(method, url, async, user, password) {
-        var xhrUrl;
-        method = method.toUpperCase();
-        if (method in this._restrictedMethods) {
-          throw new SecurityError(`HTTP method ${method} is not allowed in XHR`);
-        }
-        xhrUrl = this._parseUrl(url);
-        if (async === void 0) {
-          async = true;
-        }
-        switch (this.readyState) {
-          case XMLHttpRequest.UNSENT:
-          case XMLHttpRequest.OPENED:
-          case XMLHttpRequest.DONE:
-            // Nothing to do here.
-            null;
-            break;
-          case XMLHttpRequest.HEADERS_RECEIVED:
-          case XMLHttpRequest.LOADING:
-            // TODO(pwnall): terminate abort(), terminate send()
-            null;
-        }
-        this._method = method;
-        this._url = xhrUrl;
-        this._sync = !async;
-        this._headers = {};
-        this._loweredHeaders = {};
-        this._mimeOverride = null;
-        this._setReadyState(XMLHttpRequest.OPENED);
-        this._request = null;
-        this._response = null;
-        this.status = 0;
-        this.statusText = '';
-        this._responseParts = [];
-        this._responseHeaders = null;
-        this._loadedBytes = 0;
-        this._totalBytes = 0;
-        this._lengthComputable = false;
-        return void 0;
-      }
-
-      // Appends a header to the list of author request headers.
-
-      // @param {String} name the HTTP header name
-      // @param {String} value the HTTP header value
-      // @return {undefined} undefined
-      // @throw {InvalidStateError} readyState is not OPENED
-      // @throw {SyntaxError} name is not a valid HTTP header name or value is not
-      //   a valid HTTP header value
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader()-method
-      setRequestHeader(name, value) {
-        var loweredName;
-        if (this.readyState !== XMLHttpRequest.OPENED) {
-          throw new InvalidStateError("XHR readyState must be OPENED");
-        }
-        loweredName = name.toLowerCase();
-        if (this._restrictedHeaders[loweredName] || /^sec\-/.test(loweredName) || /^proxy-/.test(loweredName)) {
-          console.warn(`Refused to set unsafe header "${name}"`);
-          return void 0;
-        }
-        value = value.toString();
-        if (loweredName in this._loweredHeaders) {
-          // Combine value with the existing header value.
-          name = this._loweredHeaders[loweredName];
-          this._headers[name] = this._headers[name] + ', ' + value;
-        } else {
-          // New header.
-          this._loweredHeaders[loweredName] = name;
-          this._headers[name] = value;
-        }
-        return void 0;
-      }
-
-      // Initiates the request.
-
-      // @param {?String, ?ArrayBufferView} data the data to be sent; ignored for
-      //   GET and HEAD requests
-      // @return {undefined} undefined
-      // @throw {InvalidStateError} readyState is not OPENED
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-send()-method
-      send(data) {
-        if (this.readyState !== XMLHttpRequest.OPENED) {
-          throw new InvalidStateError("XHR readyState must be OPENED");
-        }
-        if (this._request) {
-          throw new InvalidStateError("send() already called");
-        }
-        switch (this._url.protocol) {
-          case 'file:':
-            this._sendFile(data);
-            break;
-          case 'http:':
-          case 'https:':
-            this._sendHttp(data);
-            break;
-          default:
-            throw new NetworkError(`Unsupported protocol ${this._url.protocol}`);
-        }
-        return void 0;
-      }
-
-      // Cancels the network activity performed by this request.
-
-      // @return {undefined} undefined
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-abort()-method
-      abort() {
-        if (!this._request) {
-          return;
-        }
-        this._request.abort();
-        this._setError();
-        this._dispatchProgress('abort');
-        this._dispatchProgress('loadend');
-        return void 0;
-      }
-
-      // Returns a header value in the HTTP response for this XHR.
-
-      // @param {String} name case-insensitive HTTP header name
-      // @return {?String} value the value of the header whose name matches the
-      //   given name, or null if there is no such header
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
-      getResponseHeader(name) {
-        var loweredName;
-        if (!this._responseHeaders) {
-          return null;
-        }
-        loweredName = name.toLowerCase();
-        if (loweredName in this._responseHeaders) {
-          return this._responseHeaders[loweredName];
-        } else {
-          return null;
-        }
-      }
-
-      // Returns all the HTTP headers in this XHR's response.
-
-      // @return {String} header lines separated by CR LF, where each header line
-      //   has the name and value separated by a ": " (colon, space); the empty
-      //   string is returned if the headers are not available
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders()-method
-      getAllResponseHeaders() {
-        var lines, name, value;
-        if (!this._responseHeaders) {
-          return '';
-        }
-        lines = (function() {
-          var ref, results;
-          ref = this._responseHeaders;
-          results = [];
-          for (name in ref) {
-            value = ref[name];
-            results.push(`${name}: ${value}`);
-          }
-          return results;
-        }).call(this);
-        return lines.join("\r\n");
-      }
-
-      // Overrides the Content-Type
-
-      // @return {undefined} undefined
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-overridemimetype()-method
-      overrideMimeType(newMimeType) {
-        if (this.readyState === XMLHttpRequest.LOADING || this.readyState === XMLHttpRequest.DONE) {
-          throw new InvalidStateError("overrideMimeType() not allowed in LOADING or DONE");
-        }
-        this._mimeOverride = newMimeType.toLowerCase();
-        return void 0;
-      }
-
-      // Network configuration not exposed in the XHR API.
-
-      // Although the XMLHttpRequest specification calls itself "ECMAScript HTTP",
-      // it assumes that requests are always performed in the context of a browser
-      // application, where some network parameters are set by the browser user and
-      // should not be modified by Web applications. This API provides access to
-      // these network parameters.
-
-      // NOTE: this is not in the XMLHttpRequest API, and will not work in
-      // browsers.  It is a stable node-xhr2 API.
-
-      // @param {Object} options one or more of the options below
-      // @option options {?http.Agent} httpAgent the value for the nodejsHttpAgent
-      //   property (the agent used for HTTP requests)
-      // @option options {?https.Agent} httpsAgent the value for the
-      //   nodejsHttpsAgent property (the agent used for HTTPS requests)
-      // @return {undefined} undefined
-      nodejsSet(options) {
-        var baseUrl, parsedUrl;
-        if ('httpAgent' in options) {
-          this.nodejsHttpAgent = options.httpAgent;
-        }
-        if ('httpsAgent' in options) {
-          this.nodejsHttpsAgent = options.httpsAgent;
-        }
-        if ('baseUrl' in options) {
-          baseUrl = options.baseUrl;
-          if (baseUrl !== null) {
-            parsedUrl = url.parse(baseUrl, false, true);
-            if (!parsedUrl.protocol) {
-              throw new SyntaxError("baseUrl must be an absolute URL");
-            }
-          }
-          this.nodejsBaseUrl = baseUrl;
-        }
-        return void 0;
-      }
-
-      // Default settings for the network configuration not exposed in the XHR API.
-
-      // NOTE: this is not in the XMLHttpRequest API, and will not work in
-      // browsers.  It is a stable node-xhr2 API.
-
-      // @param {Object} options one or more of the options below
-      // @option options {?http.Agent} httpAgent the default value for the
-      //   nodejsHttpAgent property (the agent used for HTTP requests)
-      // @option options {https.Agent} httpsAgent the default value for the
-      //   nodejsHttpsAgent property (the agent used for HTTPS requests)
-      // @return {undefined} undefined
-      // @see XMLHttpRequest.nodejsSet
-      static nodejsSet(options) {
-        // "this" will be set to XMLHttpRequest.prototype, so the instance nodejsSet
-        // operates on default property values.
-        XMLHttpRequest.prototype.nodejsSet(options);
-        return void 0;
-      }
-
-      // Sets the readyState property and fires the readystatechange event.
-
-      // @private
-      // @param {Number} newReadyState the new value of readyState
-      // @return {undefined} undefined
-      _setReadyState(newReadyState) {
-        var event;
-        this.readyState = newReadyState;
-        event = new ProgressEvent('readystatechange');
-        this.dispatchEvent(event);
-        return void 0;
-      }
-
-      // XMLHttpRequest#send() implementation for the file: protocol.
-
-      // @private
-      _sendFile() {
-        if (this._url.method !== 'GET') {
-          throw new NetworkError('The file protocol only supports GET');
-        }
-        throw new Error("Protocol file: not implemented");
-      }
-
-      // XMLHttpRequest#send() implementation for the http: and https: protocols.
-
-      // @private
-      // This method sets the instance variables and calls _sendHxxpRequest(), which
-      // is responsible for building a node.js request and firing it off. The code
-      // in _sendHxxpRequest() is separated off so it can be reused when handling
-      // redirects.
-
-      // @see http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send()-method
-      _sendHttp(data) {
-        if (this._sync) {
-          throw new Error("Synchronous XHR processing not implemented");
-        }
-        if ((data != null) && (this._method === 'GET' || this._method === 'HEAD')) {
-          console.warn(`Discarding entity body for ${this._method} requests`);
-          data = null;
-        } else {
-          // Send Content-Length: 0
-          data || (data = '');
-        }
-        // NOTE: this is called before finalizeHeaders so that the uploader can
-        //       figure out Content-Length and Content-Type.
-        this.upload._setData(data);
-        this._finalizeHeaders();
-        this._sendHxxpRequest();
-        return void 0;
-      }
-
-      // Sets up and fires off a HTTP/HTTPS request using the node.js API.
-
-      // @private
-      // This method contains the bulk of the XMLHttpRequest#send() implementation,
-      // and is also used to issue new HTTP requests when handling HTTP redirects.
-
-      // @see http://www.w3.org/TR/XMLHttpRequest/#infrastructure-for-the-send()-method
-      _sendHxxpRequest() {
-        var agent, hxxp, request;
-        if (this._url.protocol === 'http:') {
-          hxxp = http;
-          agent = this.nodejsHttpAgent;
-        } else {
-          hxxp = https;
-          agent = this.nodejsHttpsAgent;
-        }
-        request = hxxp.request({
-          hostname: this._url.hostname,
-          port: this._url.port,
-          path: this._url.path,
-          auth: this._url.auth,
-          method: this._method,
-          headers: this._headers,
-          agent: agent
-        });
-        this._request = request;
-        if (this.timeout) {
-          request.setTimeout(this.timeout, () => {
-            return this._onHttpTimeout(request);
-          });
-        }
-        request.on('response', (response) => {
-          return this._onHttpResponse(request, response);
-        });
-        request.on('error', (error) => {
-          return this._onHttpRequestError(request, error);
-        });
-        this.upload._startUpload(request);
-        if (this._request === request) { // An http error might have already fired.
-          this._dispatchProgress('loadstart');
-        }
-        return void 0;
-      }
-
-      // Fills in the restricted HTTP headers with default values.
-
-      // This is called right before the HTTP request is sent off.
-
-      // @private
-      // @return {undefined} undefined
-      _finalizeHeaders() {
-        this._headers['Connection'] = 'keep-alive';
-        this._headers['Host'] = this._url.host;
-        if (this._anonymous) {
-          this._headers['Referer'] = 'about:blank';
-        }
-        this._headers['User-Agent'] = this._userAgent;
-        this.upload._finalizeHeaders(this._headers, this._loweredHeaders);
-        return void 0;
-      }
-
-      // Called when the headers of an HTTP response have been received.
-
-      // @private
-      // @param {http.ClientRequest} request the node.js ClientRequest instance that
-      //   produced this response
-      // @param {http.ClientResponse} response the node.js ClientResponse instance
-      //   passed to
-      _onHttpResponse(request, response) {
-        var lengthString;
-        if (this._request !== request) {
-          return;
-        }
-        // Transparent redirection handling.
-        switch (response.statusCode) {
-          case 301:
-          case 302:
-          case 303:
-          case 307:
-          case 308:
-            this._url = this._parseUrl(response.headers['location']);
-            this._method = 'GET';
-            if ('content-type' in this._loweredHeaders) {
-              delete this._headers[this._loweredHeaders['content-type']];
-              delete this._loweredHeaders['content-type'];
-            }
-            // XMLHttpRequestUpload#_finalizeHeaders() sets Content-Type directly.
-            if ('Content-Type' in this._headers) {
-              delete this._headers['Content-Type'];
-            }
-            // Restricted headers can't be set by the user, no need to check
-            // loweredHeaders.
-            delete this._headers['Content-Length'];
-            this.upload._reset();
-            this._finalizeHeaders();
-            this._sendHxxpRequest();
-            return;
-        }
-        this._response = response;
-        this._response.on('data', (data) => {
-          return this._onHttpResponseData(response, data);
-        });
-        this._response.on('end', () => {
-          return this._onHttpResponseEnd(response);
-        });
-        this._response.on('close', () => {
-          return this._onHttpResponseClose(response);
-        });
-        this.responseURL = this._url.href.split('#')[0];
-        this.status = this._response.statusCode;
-        this.statusText = http.STATUS_CODES[this.status];
-        this._parseResponseHeaders(response);
-        if (lengthString = this._responseHeaders['content-length']) {
-          this._totalBytes = parseInt(lengthString);
-          this._lengthComputable = true;
-        } else {
-          this._lengthComputable = false;
-        }
-        return this._setReadyState(XMLHttpRequest.HEADERS_RECEIVED);
-      }
-
-      // Called when some data has been received on a HTTP connection.
-
-      // @private
-      // @param {http.ClientResponse} response the node.js ClientResponse instance
-      //   that fired this event
-      // @param {String, Buffer} data the data that has been received
-      _onHttpResponseData(response, data) {
-        if (this._response !== response) {
-          return;
-        }
-        this._responseParts.push(data);
-        this._loadedBytes += data.length;
-        if (this.readyState !== XMLHttpRequest.LOADING) {
-          this._setReadyState(XMLHttpRequest.LOADING);
-        }
-        return this._dispatchProgress('progress');
-      }
-
-      // Called when the HTTP request finished processing.
-
-      // @private
-      // @param {http.ClientResponse} response the node.js ClientResponse instance
-      //   that fired this event
-      _onHttpResponseEnd(response) {
-        if (this._response !== response) {
-          return;
-        }
-        this._parseResponse();
-        this._request = null;
-        this._response = null;
-        this._setReadyState(XMLHttpRequest.DONE);
-        this._dispatchProgress('load');
-        return this._dispatchProgress('loadend');
-      }
-
-      // Called when the underlying HTTP connection was closed prematurely.
-
-      // If this method is called, it will be called after or instead of
-      // onHttpResponseEnd.
-
-      // @private
-      // @param {http.ClientResponse} response the node.js ClientResponse instance
-      //   that fired this event
-      _onHttpResponseClose(response) {
-        var request;
-        if (this._response !== response) {
-          return;
-        }
-        request = this._request;
-        this._setError();
-        request.abort();
-        this._setReadyState(XMLHttpRequest.DONE);
-        this._dispatchProgress('error');
-        return this._dispatchProgress('loadend');
-      }
-
-      // Called when the timeout set on the HTTP socket expires.
-
-      // @private
-      // @param {http.ClientRequest} request the node.js ClientRequest instance that
-      //   fired this event
-      _onHttpTimeout(request) {
-        if (this._request !== request) {
-          return;
-        }
-        this._setError();
-        request.abort();
-        this._setReadyState(XMLHttpRequest.DONE);
-        this._dispatchProgress('timeout');
-        return this._dispatchProgress('loadend');
-      }
-
-      // Called when something wrong happens on the HTTP socket
-
-      // @private
-      // @param {http.ClientRequest} request the node.js ClientRequest instance that
-      //   fired this event
-      // @param {Error} error emitted exception
-      _onHttpRequestError(request, error) {
-        if (this._request !== request) {
-          return;
-        }
-        this._setError();
-        request.abort();
-        this._setReadyState(XMLHttpRequest.DONE);
-        this._dispatchProgress('error');
-        return this._dispatchProgress('loadend');
-      }
-
-      // Fires an XHR progress event.
-
-      // @private
-      // @param {String} eventType one of the XHR progress event types, such as
-      //   'load' and 'progress'
-      _dispatchProgress(eventType) {
-        var event;
-        event = new ProgressEvent(eventType);
-        event.lengthComputable = this._lengthComputable;
-        event.loaded = this._loadedBytes;
-        event.total = this._totalBytes;
-        this.dispatchEvent(event);
-        return void 0;
-      }
-
-      // Sets up the XHR to reflect the fact that an error has occurred.
-
-      // The possible errors are a network error, a timeout, or an abort.
-
-      // @private
-      _setError() {
-        this._request = null;
-        this._response = null;
-        this._responseHeaders = null;
-        this._responseParts = null;
-        return void 0;
-      }
-
-      // Parses a request URL string.
-
-      // @private
-      // This method is a thin wrapper around url.parse() that normalizes HTTP
-      // user/password credentials. It is used to parse the URL string passed to
-      // XMLHttpRequest#open() and the URLs in the Location headers of HTTP redirect
-      // responses.
-
-      // @param {String} urlString the URL to be parsed
-      // @return {Object} parsed URL
-      _parseUrl(urlString) {
-        var absoluteUrlString, index, password, user, xhrUrl;
-        if (this.nodejsBaseUrl === null) {
-          absoluteUrlString = urlString;
-        } else {
-          absoluteUrlString = url.resolve(this.nodejsBaseUrl, urlString);
-        }
-        xhrUrl = url.parse(absoluteUrlString, false, true);
-        xhrUrl.hash = null;
-        if (xhrUrl.auth && ((typeof user !== "undefined" && user !== null) || (typeof password !== "undefined" && password !== null))) {
-          index = xhrUrl.auth.indexOf(':');
-          if (index === -1) {
-            if (!user) {
-              user = xhrUrl.auth;
-            }
-          } else {
-            if (!user) {
-              user = xhrUrl.substring(0, index);
-            }
-            if (!password) {
-              password = xhrUrl.substring(index + 1);
-            }
-          }
-        }
-        if (user || password) {
-          xhrUrl.auth = `${user}:${password}`;
-        }
-        return xhrUrl;
-      }
-
-      // Reads the headers from a node.js ClientResponse instance.
-
-      // @private
-      // @param {http.ClientResponse} response the response whose headers will be
-      //   imported into this XMLHttpRequest's state
-      // @return {undefined} undefined
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
-      // @see http://www.w3.org/TR/XMLHttpRequest/#the-getallresponseheaders()-method
-      _parseResponseHeaders(response) {
-        var loweredName, name, ref, value;
-        this._responseHeaders = {};
-        ref = response.headers;
-        for (name in ref) {
-          value = ref[name];
-          loweredName = name.toLowerCase();
-          if (this._privateHeaders[loweredName]) {
-            continue;
-          }
-          if (this._mimeOverride !== null && loweredName === 'content-type') {
-            value = this._mimeOverride;
-          }
-          this._responseHeaders[loweredName] = value;
-        }
-        if (this._mimeOverride !== null && !('content-type' in this._responseHeaders)) {
-          this._responseHeaders['content-type'] = this._mimeOverride;
-        }
-        return void 0;
-      }
-
-      // Sets the response and responseText properties when an XHR completes.
-
-      // @private
-      // @return {undefined} undefined
-      _parseResponse() {
-        var arrayBuffer, buffer, i, j, jsonError, ref, view;
-        if (Buffer.concat) {
-          buffer = Buffer.concat(this._responseParts);
-        } else {
-          // node 0.6
-          buffer = this._concatBuffers(this._responseParts);
-        }
-        this._responseParts = null;
-        switch (this.responseType) {
-          case 'text':
-            this._parseTextResponse(buffer);
-            break;
-          case 'json':
-            this.responseText = null;
-            try {
-              this.response = JSON.parse(buffer.toString('utf-8'));
-            } catch (error1) {
-              jsonError = error1;
-              this.response = null;
-            }
-            break;
-          case 'buffer':
-            this.responseText = null;
-            this.response = buffer;
-            break;
-          case 'arraybuffer':
-            this.responseText = null;
-            arrayBuffer = new ArrayBuffer(buffer.length);
-            view = new Uint8Array(arrayBuffer);
-            for (i = j = 0, ref = buffer.length; (0 <= ref ? j < ref : j > ref); i = 0 <= ref ? ++j : --j) {
-              view[i] = buffer[i];
-            }
-            this.response = arrayBuffer;
-            break;
-          default:
-            // TODO(pwnall): content-base detection
-            this._parseTextResponse(buffer);
-        }
-        return void 0;
-      }
-
-      // Sets response and responseText for a 'text' response type.
-
-      // @private
-      // @param {Buffer} buffer the node.js Buffer containing the binary response
-      // @return {undefined} undefined
-      _parseTextResponse(buffer) {
-        var e;
-        try {
-          this.responseText = buffer.toString(this._parseResponseEncoding());
-        } catch (error1) {
-          e = error1;
-          // Unknown encoding.
-          this.responseText = buffer.toString('binary');
-        }
-        this.response = this.responseText;
-        return void 0;
-      }
-
-      // Figures out the string encoding of the XHR's response.
-
-      // This is called to determine the encoding when responseText is set.
-
-      // @private
-      // @return {String} a string encoding, e.g. 'utf-8'
-      _parseResponseEncoding() {
-        var contentType, encoding, match;
-        encoding = null;
-        if (contentType = this._responseHeaders['content-type']) {
-          if (match = /\;\s*charset\=(.*)$/.exec(contentType)) {
-            return match[1];
-          }
-        }
-        return 'utf-8';
-      }
-
-      // Buffer.concat implementation for node 0.6.
-
-      // @private
-      // @param {Array<Buffer>} buffers the buffers whose contents will be merged
-      // @return {Buffer} same as Buffer.concat(buffers) in node 0.8 and above
-      _concatBuffers(buffers) {
-        var buffer, j, k, len, len1, length, target;
-        if (buffers.length === 0) {
-          return Buffer.alloc(0);
-        }
-        if (buffers.length === 1) {
-          return buffers[0];
-        }
-        length = 0;
-        for (j = 0, len = buffers.length; j < len; j++) {
-          buffer = buffers[j];
-          length += buffer.length;
-        }
-        target = Buffer.alloc(length);
-        length = 0;
-        for (k = 0, len1 = buffers.length; k < len1; k++) {
-          buffer = buffers[k];
-          buffer.copy(target, length);
-          length += buffer.length;
-        }
-        return target;
-      }
-
-    };
-
-    // @property {function(ProgressEvent)} DOM level 0-style handler for the
-    //   'readystatechange' event
-    XMLHttpRequest.prototype.onreadystatechange = null;
-
-    // @property {Number} the current state of the XHR object
-    // @see http://www.w3.org/TR/XMLHttpRequest/#states
-    XMLHttpRequest.prototype.readyState = null;
-
-    // @property {String, ArrayBuffer, Buffer, Object} processed XHR response
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-response-attribute
-    XMLHttpRequest.prototype.response = null;
-
-    // @property {String} response string, if responseType is '' or 'text'
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-responsetext-attribute
-    XMLHttpRequest.prototype.responseText = null;
-
-    // @property {String} sets the parsing method for the XHR response
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-responsetype-attribute
-    XMLHttpRequest.prototype.responseType = null;
-
-    // @property {Number} the HTTP
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-status-attribute
-    XMLHttpRequest.prototype.status = null;
-
-    // @property {Number} milliseconds to wait for the request to complete
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-timeout-attribute
-    XMLHttpRequest.prototype.timeout = null;
-
-    // @property {XMLHttpRequestUpload} the associated upload information
-    // @see http://www.w3.org/TR/XMLHttpRequest/#the-upload-attribute
-    XMLHttpRequest.prototype.upload = null;
-
-    // readyState value before XMLHttpRequest#open() is called
-    XMLHttpRequest.prototype.UNSENT = 0;
-
-    // readyState value before XMLHttpRequest#open() is called
-    XMLHttpRequest.UNSENT = 0;
-
-    // readyState value after XMLHttpRequest#open() is called, and before
-    //   XMLHttpRequest#send() is called; XMLHttpRequest#setRequestHeader() can be
-    //   called in this state
-    XMLHttpRequest.prototype.OPENED = 1;
-
-    // readyState value after XMLHttpRequest#open() is called, and before
-    //   XMLHttpRequest#send() is called; XMLHttpRequest#setRequestHeader() can be
-    //   called in this state
-    XMLHttpRequest.OPENED = 1;
-
-    // readyState value after redirects have been followed and the HTTP headers of
-    //   the final response have been received
-    XMLHttpRequest.prototype.HEADERS_RECEIVED = 2;
-
-    // readyState value after redirects have been followed and the HTTP headers of
-    //   the final response have been received
-    XMLHttpRequest.HEADERS_RECEIVED = 2;
-
-    // readyState value when the response entity body is being received
-    XMLHttpRequest.prototype.LOADING = 3;
-
-    // readyState value when the response entity body is being received
-    XMLHttpRequest.LOADING = 3;
-
-    // readyState value after the request has been completely processed
-    XMLHttpRequest.prototype.DONE = 4;
-
-    // readyState value after the request has been completely processed
-    XMLHttpRequest.DONE = 4;
-
-    // @property {http.Agent} the agent option passed to HTTP requests
-
-    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
-    // It is a stable node-xhr2 API that is useful for testing & going through
-    // web-proxies.
-    XMLHttpRequest.prototype.nodejsHttpAgent = http.globalAgent;
-
-    // @property {https.Agent} the agent option passed to HTTPS requests
-
-    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
-    // It is a stable node-xhr2 API that is useful for testing & going through
-    // web-proxies.
-    XMLHttpRequest.prototype.nodejsHttpsAgent = https.globalAgent;
-
-    // @property {String} the base URL that relative URLs get resolved to
-
-    // NOTE: this is not in the XMLHttpRequest API, and will not work in browsers.
-    // Its browser equivalent is the base URL of the document associated with the
-    // Window object. It is a stable node-xhr2 API provided for libraries such as
-    // Angular Universal.
-    XMLHttpRequest.prototype.nodejsBaseUrl = null;
-
-    // HTTP methods that are disallowed in the XHR spec.
-
-    // @private
-    // @see Step 6 in http://www.w3.org/TR/XMLHttpRequest/#the-open()-method
-    XMLHttpRequest.prototype._restrictedMethods = {
-      CONNECT: true,
-      TRACE: true,
-      TRACK: true
-    };
-
-    // HTTP request headers that are disallowed in the XHR spec.
-
-    // @private
-    // @see Step 5 in
-    //   http://www.w3.org/TR/XMLHttpRequest/#the-setrequestheader()-method
-    XMLHttpRequest.prototype._restrictedHeaders = {
-      'accept-charset': true,
-      'accept-encoding': true,
-      'access-control-request-headers': true,
-      'access-control-request-method': true,
-      connection: true,
-      'content-length': true,
-      cookie: true,
-      cookie2: true,
-      date: true,
-      dnt: true,
-      expect: true,
-      host: true,
-      'keep-alive': true,
-      origin: true,
-      referer: true,
-      te: true,
-      trailer: true,
-      'transfer-encoding': true,
-      upgrade: true,
-      'user-agent': true,
-      via: true
-    };
-
-    // HTTP response headers that should not be exposed according to the XHR spec.
-
-    // @private
-    // @see Step 3 in
-    //     http://www.w3.org/TR/XMLHttpRequest/#the-getresponseheader()-method
-    XMLHttpRequest.prototype._privateHeaders = {
-      'set-cookie': true,
-      'set-cookie2': true
-    };
-
-    // The value of the User-Agent header.
-    XMLHttpRequest.prototype._userAgent = `Mozilla/5.0 (${os.type()} ${os.arch()}) ` + `node.js/${process.versions.node} v8/${process.versions.v8}`;
-
-    return XMLHttpRequest;
-
-  }).call(this);
-
-  // XMLHttpRequest is the result of require('node-xhr2').
-  module.exports = XMLHttpRequest;
-
-  // Make node-xhr2 work as a drop-in replacement for libraries that promote the
-  // following usage pattern:
-  //     var XMLHttpRequest = require('xhr-library-name').XMLHttpRequest
-  XMLHttpRequest.XMLHttpRequest = XMLHttpRequest;
-
-  // This file defines the custom errors used in the XMLHttpRequest specification.
-
-  // Thrown if the XHR security policy is violated.
-  SecurityError = class SecurityError extends Error {
-    // @private
-    constructor() {
-      super();
-    }
-
-  };
-
-  // Thrown if the XHR security policy is violated.
-  XMLHttpRequest.SecurityError = SecurityError;
-
-  // Usually thrown if the XHR is in the wrong readyState for an operation.
-  InvalidStateError = class InvalidStateError extends Error {
-    // @private
-    constructor() {
-      super();
-    }
-
-  };
-
-  // Usually thrown if the XHR is in the wrong readyState for an operation.
-  InvalidStateError = class InvalidStateError extends Error {};
-
-  XMLHttpRequest.InvalidStateError = InvalidStateError;
-
-  // Thrown if there is a problem with the URL passed to the XHR.
-  NetworkError = class NetworkError extends Error {
-    // @private
-    constructor() {
-      super();
-    }
-
-  };
-
-  // Thrown if parsing URLs errors out.
-  XMLHttpRequest.SyntaxError = SyntaxError;
-
-  SyntaxError = class SyntaxError extends Error {
-    // @private:
-    constructor() {
-      super();
-    }
-
-  };
-
-  ProgressEvent = (function() {
-    // http://xhr.spec.whatwg.org/#interface-progressevent
-    class ProgressEvent {
-      // Creates a new event.
-
-      // @param {String} type the event type, e.g. 'readystatechange'; must be
-      //   lowercased
-      constructor(type) {
-        this.type = type;
-        this.target = null;
-        this.currentTarget = null;
-        this.lengthComputable = false;
-        this.loaded = 0;
-        this.total = 0;
-      }
-
-    };
-
-    // Getting the time from the OS is expensive, skip on that for now.
-    // @timeStamp = Date.now()
-
-    // @property {Boolean} for compatibility with DOM events
-    ProgressEvent.prototype.bubbles = false;
-
-    // @property {Boolean} for fompatibility with DOM events
-    ProgressEvent.prototype.cancelable = false;
-
-    // @property {XMLHttpRequest} the request that caused this event
-    ProgressEvent.prototype.target = null;
-
-    // @property {Number} number of bytes that have already been downloaded or
-    //   uploaded
-    ProgressEvent.prototype.loaded = null;
-
-    // @property {Boolean} true if the Content-Length response header is available
-    //   and the value of the event's total property is meaningful
-    ProgressEvent.prototype.lengthComputable = null;
-
-    // @property {Number} number of bytes that will be downloaded or uploaded by
-    //   the request that fired the event
-    ProgressEvent.prototype.total = null;
-
-    return ProgressEvent;
-
-  }).call(this);
-
-  // The XHR spec exports the ProgressEvent constructor.
-  XMLHttpRequest.ProgressEvent = ProgressEvent;
-
-  // @see http://xhr.spec.whatwg.org/#interface-xmlhttprequest
-  XMLHttpRequestUpload = class XMLHttpRequestUpload extends XMLHttpRequestEventTarget {
-    // @private
-    // @param {XMLHttpRequest} the XMLHttpRequest that this upload object is
-    //   associated with
-    constructor(request) {
-      super();
-      this._request = request;
-      this._reset();
-    }
-
-    // Sets up this Upload to handle a new request.
-
-    // @private
-    // @return {undefined} undefined
-    _reset() {
-      this._contentType = null;
-      this._body = null;
-      return void 0;
-    }
-
-    // Implements the upload-related part of the send() XHR specification.
-
-    // @private
-    // @param {?String, ?Buffer, ?ArrayBufferView} data the argument passed to
-    //   XMLHttpRequest#send()
-    // @return {undefined} undefined
-    // @see step 4 of http://www.w3.org/TR/XMLHttpRequest/#the-send()-method
-    _setData(data) {
-      var body, i, j, k, offset, ref, ref1, view;
-      if (typeof data === 'undefined' || data === null) {
-        return;
-      }
-      if (typeof data === 'string') {
-        // DOMString
-        if (data.length !== 0) {
-          this._contentType = 'text/plain;charset=UTF-8';
-        }
-        this._body = Buffer.from(data, 'utf8');
-      } else if (Buffer.isBuffer(data)) {
-        // node.js Buffer
-        this._body = data;
-      } else if (data instanceof ArrayBuffer) {
-        // ArrayBuffer arguments were supported in an old revision of the spec.
-        body = Buffer.alloc(data.byteLength);
-        view = new Uint8Array(data);
-        for (i = j = 0, ref = data.byteLength; (0 <= ref ? j < ref : j > ref); i = 0 <= ref ? ++j : --j) {
-          body[i] = view[i];
-        }
-        this._body = body;
-      } else if (data.buffer && data.buffer instanceof ArrayBuffer) {
-        // ArrayBufferView
-        body = Buffer.alloc(data.byteLength);
-        offset = data.byteOffset;
-        view = new Uint8Array(data.buffer);
-        for (i = k = 0, ref1 = data.byteLength; (0 <= ref1 ? k < ref1 : k > ref1); i = 0 <= ref1 ? ++k : --k) {
-          body[i] = view[i + offset];
-        }
-        this._body = body;
-      } else {
-        // NOTE: diverging from the XHR specification of coercing everything else
-        //       to Strings via toString() because that behavior masks bugs and is
-        //       rarely useful
-        throw new Error(`Unsupported send() data ${data}`);
-      }
-      return void 0;
-    }
-
-    // Updates the HTTP headers right before the request is sent.
-
-    // This is used to set data-dependent headers such as Content-Length and
-    // Content-Type.
-
-    // @private
-    // @param {Object<String, String>} headers the HTTP headers to be sent
-    // @param {Object<String, String>} loweredHeaders maps lowercased HTTP header
-    //   names (e.g., 'content-type') to the actual names used in the headers
-    //   parameter (e.g., 'Content-Type')
-    // @return {undefined} undefined
-    _finalizeHeaders(headers, loweredHeaders) {
-      if (this._contentType) {
-        if (!('content-type' in loweredHeaders)) {
-          headers['Content-Type'] = this._contentType;
-        }
-      }
-      if (this._body) {
-        // Restricted headers can't be set by the user, no need to check
-        // loweredHeaders.
-        headers['Content-Length'] = this._body.length.toString();
-      }
-      return void 0;
-    }
-
-    // Starts sending the HTTP request data.
-
-    // @private
-    // @param {http.ClientRequest} request the HTTP request
-    // @return {undefined} undefined
-    _startUpload(request) {
-      if (this._body) {
-        request.write(this._body);
-      }
-      request.end();
-      return void 0;
-    }
-
-  };
-
-  // Export the XMLHttpRequestUpload constructor.
-  XMLHttpRequest.XMLHttpRequestUpload = XMLHttpRequestUpload;
-
-}).call(this);
-
-
-/***/ }),
-
-/***/ 747:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("fs");
-
-/***/ }),
-
-/***/ 605:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("http");
-
-/***/ }),
-
-/***/ 211:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("https");
-
-/***/ }),
-
-/***/ 87:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("os");
-
-/***/ }),
-
-/***/ 622:
-/***/ ((module) => {
-
-"use strict";
-module.exports = require("path");
-
-/***/ }),
-
 /***/ 835:
-/***/ ((module) => {
+/***/ (function(module) {
 
-"use strict";
 module.exports = require("url");
 
 /***/ })
 
-/******/ 	});
-/************************************************************************/
-/******/ 	// The module cache
-/******/ 	var __webpack_module_cache__ = {};
-/******/ 	
-/******/ 	// The require function
-/******/ 	function __nccwpck_require__(moduleId) {
-/******/ 		// Check if module is in cache
-/******/ 		var cachedModule = __webpack_module_cache__[moduleId];
-/******/ 		if (cachedModule !== undefined) {
-/******/ 			return cachedModule.exports;
-/******/ 		}
-/******/ 		// Create a new module (and put it into the cache)
-/******/ 		var module = __webpack_module_cache__[moduleId] = {
-/******/ 			// no module.id needed
-/******/ 			// no module.loaded needed
-/******/ 			exports: {}
-/******/ 		};
-/******/ 	
-/******/ 		// Execute the module function
-/******/ 		var threw = true;
-/******/ 		try {
-/******/ 			__webpack_modules__[moduleId].call(module.exports, module, module.exports, __nccwpck_require__);
-/******/ 			threw = false;
-/******/ 		} finally {
-/******/ 			if(threw) delete __webpack_module_cache__[moduleId];
-/******/ 		}
-/******/ 	
-/******/ 		// Return the exports of the module
-/******/ 		return module.exports;
-/******/ 	}
-/******/ 	
-/************************************************************************/
-/******/ 	/* webpack/runtime/compat */
-/******/ 	
-/******/ 	if (typeof __nccwpck_require__ !== 'undefined') __nccwpck_require__.ab = __dirname + "/";
-/******/ 	
-/************************************************************************/
-/******/ 	
-/******/ 	// startup
-/******/ 	// Load entry module and return exports
-/******/ 	// This entry module is referenced by other modules so it can't be inlined
-/******/ 	var __webpack_exports__ = __nccwpck_require__(822);
-/******/ 	module.exports = __webpack_exports__;
-/******/ 	
-/******/ })()
-;
+/******/ });
