@@ -892,7 +892,7 @@ exports.paginatingEndpoints = paginatingEndpoints;
 
 const core = __webpack_require__(470);
 const github = __webpack_require__(469);
-const PDFNet = __webpack_require__(551);
+const { PDFNet } = __webpack_require__(551);
 try {
     // `who-to-greet` input defined in action metadata file
     const nameToGreet = core.getInput('who-to-greet');
