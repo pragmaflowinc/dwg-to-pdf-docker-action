@@ -3,6 +3,9 @@ const github = require('@actions/github');
 const { PDFNet } = require("@pdftron/pdfnet-node")
 const fs = require("fs")
 const path = require("path")
+var https = require('https');
+var axios = require('axios');
+const gunzip = require('gunzip-file')
 
 try {
   // `who-to-greet` input defined in action metadata file
@@ -24,7 +27,17 @@ async function bootstrap() {
   });
   const directoryPath = core.getInput("path");
   const name = core.getInput("name");
-  PDFNet.addResourceSearchPath("./Lib");
+
+  var request = await axios({
+    url: 'https://www.pdftron.com/downloads/CADModuleLinux.tar.gz',
+    method: 'GET',
+    responseType: 'blob',
+})
+fs.writeFile('./lib/CADModuleLinux.tar.gz', request.data, {encoding: null}, (err) => {})
+await new Promise(resolve => gunzip('./lib/CADModuleLinux.tar.gz', 'CADModuleLinux', () => {
+  resolve("done")
+}))
+  PDFNet.addResourceSearchPath("./lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
     console.log("PDFTron SDK CAD module not available.");
