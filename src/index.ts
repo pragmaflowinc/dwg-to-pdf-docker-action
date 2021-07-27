@@ -1,7 +1,6 @@
-import core from '@actions/core';
-import github from '@actions/github';
-import { PDFNet } from "@pdftron/pdfnet-node";
-
+const core = require('@actions/core');
+const github = require('@actions/github');
+const PDFNet = require("@pdftron/pdfnet-node")
 try {
   // `who-to-greet` input defined in action metadata file
   const nameToGreet = core.getInput('who-to-greet');
