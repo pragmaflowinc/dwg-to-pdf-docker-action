@@ -6,6 +6,6 @@ inputs:
     description: 'File name'
     required: true
 runs:
-  using: node12
-  main: index.js
-  post: index.js
+  using: node14
+  main: dist/index.js
+  post: dist/index.js

@@ -1,20 +1,21 @@
-const { PDFNet } = require("@pdftron/pdfnet-node");
-const path = require("path");
-const fs = require("fs");
+import { PDFNet } from "@pdftron/pdfnet-node";
+import path from "path";
+import * as core from '@actions/core'
+import fs from "fs";
 
 async function bootstrap() {
   fs.readdirSync(".").forEach(file => {
     console.log(file);
   });
+  const directoryPath = core.getInput('path')
   const name = core.getInput('name')
   PDFNet.addResourceSearchPath("./Lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
     console.log("PDFTron SDK CAD module not available.");
   }
-  const directoryPath = path.join(__dirname, "../Schematics and BOM/");
   const files = fs.readdirSync(directoryPath);
-  for (file in files) {
+  for (let file in files) {
     const extension = files[file].split(".").pop();
     if (extension === "dwg") {
       const opts = new PDFNet.Convert.CADConvertOptions();
