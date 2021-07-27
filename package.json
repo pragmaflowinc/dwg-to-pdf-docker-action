@@ -1,0 +1,11 @@
+{
+  "name": "dwg-to-pdf-docker-action",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "git@github.com:Weighpack-Systems/dwg-to-pdf-docker-action.git",
+  "author": "PragmaFlow <steven.mckeown@pragmaflow.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@pdftron/pdfnet-node": "^9.0.0-3"
+  }
+}
