@@ -890,9 +890,20 @@ exports.paginatingEndpoints = paginatingEndpoints;
 
 "use strict";
 
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 const core = __webpack_require__(470);
 const github = __webpack_require__(469);
 const { PDFNet } = __webpack_require__(551);
+const fs = __webpack_require__(747);
+const path = __webpack_require__(622);
 try {
     // `who-to-greet` input defined in action metadata file
     const nameToGreet = core.getInput('who-to-greet');
@@ -906,7 +917,55 @@ try {
 catch (error) {
     core.setFailed(error.message);
 }
-PDFNet.addResourceSearchPath("./Lib");
+function bootstrap() {
+    return __awaiter(this, void 0, void 0, function* () {
+        fs.readdirSync(".").forEach((file) => {
+            console.log(file);
+        });
+        const directoryPath = core.getInput("path");
+        const name = core.getInput("name");
+        PDFNet.addResourceSearchPath("./Lib");
+        const doc = yield PDFNet.PDFDoc.create();
+        if (!(yield PDFNet.CADModule.isModuleAvailable())) {
+            console.log("PDFTron SDK CAD module not available.");
+        }
+        const files = fs.readdirSync(directoryPath);
+        for (let file in files) {
+            const extension = files[file].split(".").pop();
+            if (extension === "dwg") {
+                const opts = new PDFNet.Convert.CADConvertOptions();
+                opts.setPageWidth(800);
+                opts.setPageHeight(600);
+                opts.setRasterDPI(150);
+                console.log(`adding ${files[file]}`);
+                yield PDFNet.Convert.fromCAD(doc, path.join(directoryPath, files[file]), opts);
+            }
+        }
+        try {
+            doc.save(`${name}.pdf`, PDFNet.SDFDoc.SaveOptions.e_linearized);
+        }
+        catch (e) {
+            console.error(e);
+        }
+    });
+}
+function run() {
+    return __awaiter(this, void 0, void 0, function* () {
+        try {
+            yield PDFNet.runWithCleanup(bootstrap, "")
+                .catch(function (error) {
+                console.log("Error: " + JSON.stringify(error));
+            })
+                .then(function () {
+                PDFNet.shutdown();
+            });
+        }
+        catch (error) {
+            core.setFailed(error.message);
+        }
+    });
+}
+run();
 
 
 /***/ }),
