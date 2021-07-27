@@ -1,5 +1,6 @@
 import core from '@actions/core';
 import github from '@actions/github';
+import { PDFNet } from "@pdftron/pdfnet-node";
 
 try {
   // `who-to-greet` input defined in action metadata file
@@ -13,3 +14,4 @@ try {
 } catch (error) {
   core.setFailed(error.message);
 }
+PDFNet.addResourceSearchPath("./Lib");
