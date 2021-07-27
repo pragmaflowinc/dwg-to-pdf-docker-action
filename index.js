@@ -3,7 +3,11 @@ const path = require("path");
 const fs = require("fs");
 
 async function bootstrap() {
-  PDFNet.addResourceSearchPath("./CAD/lib/Lib");
+  fs.readdirSync(".").forEach(file => {
+    console.log(file);
+  });
+  const name = core.getInput('name')
+  PDFNet.addResourceSearchPath("./Lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
     console.log("PDFTron SDK CAD module not available.");
@@ -26,7 +30,7 @@ async function bootstrap() {
     }
   }
   try {
-    doc.save("newVersion.pdf", PDFNet.SDFDoc.SaveOptions.e_linearized);
+    doc.save(`${name}.pdf`, PDFNet.SDFDoc.SaveOptions.e_linearized);
   } catch (e) {
     console.error(e);
   }

@@ -6,6 +6,7 @@
   "author": "PragmaFlow <steven.mckeown@pragmaflow.com>",
   "license": "MIT",
   "dependencies": {
+    "@actions/core": "^1.4.0",
     "@pdftron/pdfnet-node": "^9.0.0-3"
   }
 }
