@@ -6,7 +6,7 @@
   "author": "PragmaFlow <steven.mckeown@pragmaflow.com>",
   "license": "MIT",
   "scripts": {
-    "build": "ncc build",
+    "build": "tsc && ncc build",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",

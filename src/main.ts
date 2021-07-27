@@ -1,14 +1,14 @@
 import { PDFNet } from "@pdftron/pdfnet-node";
 import path from "path";
-import * as core from '@actions/core'
+import * as core from "@actions/core";
 import fs from "fs";
 
 async function bootstrap() {
-  fs.readdirSync(".").forEach(file => {
+  fs.readdirSync(".").forEach((file) => {
     console.log(file);
   });
-  const directoryPath = core.getInput('path')
-  const name = core.getInput('name')
+  const directoryPath = core.getInput("path");
+  const name = core.getInput("name");
   PDFNet.addResourceSearchPath("./Lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
@@ -36,11 +36,17 @@ async function bootstrap() {
     console.error(e);
   }
 }
-
-PDFNet.runWithCleanup(bootstrap, "")
-  .catch(function (error) {
-    console.log("Error: " + JSON.stringify(error));
-  })
-  .then(function () {
-    PDFNet.shutdown();
-  });
+async function run(): Promise<void> {
+  try {
+    await PDFNet.runWithCleanup(bootstrap, "")
+      .catch(function (error) {
+        console.log("Error: " + JSON.stringify(error));
+      })
+      .then(function () {
+        PDFNet.shutdown();
+      });
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+run();
