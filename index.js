@@ -10,7 +10,7 @@ async function bootstrap() {
     console.log(file);
   });
   console.log(Object.keys(process.env))
-  PDFNet.addResourceSearchPath("/");
+  PDFNet.addResourceSearchPath("/lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
     console.log("PDFTron SDK CAD module not available.");
