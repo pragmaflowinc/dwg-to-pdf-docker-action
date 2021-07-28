@@ -10,13 +10,12 @@ async function bootstrap() {
     console.log(file);
   });
   console.log(Object.keys(process.env))
-  PDFNet.addResourceSearchPath("./CAD/lib/Lib");
+  PDFNet.addResourceSearchPath("/");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
     console.log("PDFTron SDK CAD module not available.");
   }
-  const directoryPath = path.join(__dirname, "../Schematics and BOM/");
-  const files = fs.readdirSync(directoryPath);
+  const files = fs.readdirSync('./schematics-and-bom');
   for (file in files) {
     const extension = files[file].split(".").pop();
     if (extension === "dwg") {
@@ -27,7 +26,7 @@ async function bootstrap() {
       console.log(`adding ${files[file]}`);
       await PDFNet.Convert.fromCAD(
         doc,
-        path.join(directoryPath, files[file]),
+        path.join("./schematics-and-bom", files[file]),
         opts
       );
     }
@@ -39,4 +38,17 @@ async function bootstrap() {
   }
 }
 
-bootstrap();
+async function run() {
+  try {
+    await PDFNet.runWithCleanup(bootstrap, "")
+      .catch(function (error) {
+        console.log("Error: " + JSON.stringify(error));
+      })
+      .then(function () {
+        PDFNet.shutdown();
+      });
+  } catch (error) {
+    core.setFailed(error.message);
+  }
+}
+run();

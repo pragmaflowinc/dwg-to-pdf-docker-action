@@ -11,5 +11,5 @@ RUN yarn install
 
 ADD index.js /index.js
 ADD https://www.pdftron.com/downloads/CADModuleLinux.tar.gz /CADModuleLinux.tar.gz
-RUN tar -xzf /CADModuleLinux.tar.gz
+RUN tar -xzf /CADModuleLinux.tar.gz -C /
 ENTRYPOINT ["node", "/index.js"]
