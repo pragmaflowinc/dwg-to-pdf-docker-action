@@ -3,10 +3,10 @@ const path = require("path");
 const fs = require("fs");
 
 async function bootstrap() {
-  fs.readdirSync(".").forEach((file) => {
+  fs.readdirSync("./schematics-and-bom").forEach((file) => {
     console.log(file);
   });
-  fs.readdirSync("/github/workspace").forEach((file) => {
+  fs.readdirSync("/").forEach((file) => {
     console.log(file);
   });
   console.log(Object.keys(process.env))
