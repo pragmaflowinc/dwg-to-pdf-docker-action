@@ -1,42 +1,51 @@
-const core = require('@actions/core');
-const github = require('@actions/github');
-const { PDFNet } = require("@pdftron/pdfnet-node")
-const fs = require("fs")
-const path = require("path")
-var https = require('https');
-var axios = require('axios');
-const gunzip = require('gunzip-file')
+const core = require("@actions/core");
+const github = require("@actions/github");
+const { PDFNet } = require("@pdftron/pdfnet-node");
+const fs = require("fs");
+const path = require("path");
+var https = require("https");
+var axios = require("axios");
+const gunzip = require("gunzip-file");
 
 try {
   // `who-to-greet` input defined in action metadata file
-  const nameToGreet = core.getInput('who-to-greet');
+  const nameToGreet = core.getInput("who-to-greet");
   console.log(`Hello ${nameToGreet}!`);
-  const time = (new Date()).toTimeString();
+  const time = new Date().toTimeString();
   core.setOutput("time", time);
   // Get the JSON webhook payload for the event that triggered the workflow
-  const payload = JSON.stringify(github.context.payload, undefined, 2)
+  const payload = JSON.stringify(github.context.payload, undefined, 2);
   console.log(`The event payload: ${payload}`);
 } catch (error) {
   core.setFailed(error.message);
 }
 
-
 async function bootstrap() {
   fs.readdirSync(".").forEach((file) => {
     console.log(file);
   });
+  fs.readdirSync("/home/runner/work/").forEach(file => {
+    console.log(file);
+  })
   const directoryPath = core.getInput("path");
   const name = core.getInput("name");
 
-  var request = await axios({
-    url: 'https://www.pdftron.com/downloads/CADModuleLinux.tar.gz',
-    method: 'GET',
-    responseType: 'blob',
-})
-fs.writeFile('./lib/CADModuleLinux.tar.gz', request.data, {encoding: null}, (err) => {})
-await new Promise(resolve => gunzip('./lib/CADModuleLinux.tar.gz', 'CADModuleLinux', () => {
-  resolve("done")
-}))
+  // var request = await axios({
+  //   url: "https://www.pdftron.com/downloads/CADModuleLinux.tar.gz",
+  //   method: "GET",
+  //   responseType: "blob",
+  // });
+  // fs.writeFile(
+  //   "./lib/CADModuleLinux.tar.gz",
+  //   request.data,
+  //   { encoding: null },
+  //   (err) => {}
+  // );
+  // await new Promise((resolve) =>
+  //   gunzip("./lib/CADModuleLinux.tar.gz", "CADModuleLinux", () => {
+  //     resolve("done");
+  //   })
+  // );
   PDFNet.addResourceSearchPath("./lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
