@@ -6,7 +6,7 @@ async function bootstrap() {
   fs.readdirSync(".").forEach((file) => {
     console.log(file);
   });
-  fs.readdirSync("/home/runner/work/").forEach((file) => {
+  fs.readdirSync("/github/workspace").forEach((file) => {
     console.log(file);
   });
   console.log(Object.keys(process.env))
