@@ -1,6 +1,5 @@
 # Container image that runs your code
 FROM ubuntu:20.04
-WORKDIR /app
 RUN apt-get update
 RUN apt-get -y install curl gnupg
 RUN curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
