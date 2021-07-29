@@ -3,13 +3,6 @@ const path = require("path");
 const fs = require("fs");
 
 async function bootstrap() {
-  fs.readdirSync("./schematics-and-bom").forEach((file) => {
-    console.log(file);
-  });
-  fs.readdirSync("/").forEach((file) => {
-    console.log(file);
-  });
-  console.log(Object.keys(process.env))
   PDFNet.addResourceSearchPath("/Lib");
   const doc = await PDFNet.PDFDoc.create();
   if (!(await PDFNet.CADModule.isModuleAvailable())) {
@@ -48,7 +41,7 @@ async function run() {
         PDFNet.shutdown();
       });
   } catch (error) {
-    core.setFailed(error.message);
+    console.log(error.message);
   }
 }
 run();
